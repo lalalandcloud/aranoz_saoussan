@@ -13,9 +13,9 @@ class Product extends Model
         'name', 'description', 'price', 'stock', 'pin', 'colour', 'img_main', 'img_2', 'img_3', 'img_4',
     ];
 
-    public function products_cat(){
-        return $this -> belongsTo(Products_Cat::class);
-    }
+    public function category(){
+    return $this->belongsTo(ProductCategory::class, 'products_cat_id');
+}
 
     public function promo(){
         return $this -> belongsTo(Promo::class);

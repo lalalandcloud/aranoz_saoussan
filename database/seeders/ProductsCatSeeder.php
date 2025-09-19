@@ -1,19 +1,10 @@
-<?php
-
-namespace Database\Seeders;
-
-use App\Models\Products_Cat;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\Models\ProductCategory;
 
 class ProductsCatSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $products_cats = [
+        $categories = [
             ['name' => 'Électronique'],
             ['name' => 'Vêtements'],
             ['name' => 'Maison & Jardin'],
@@ -21,8 +12,8 @@ class ProductsCatSeeder extends Seeder
             ['name' => 'Livres'],
         ];
 
-        foreach ($products_cats as $cat) {
-            Products_Cat::create($cat);
+        foreach ($categories as $cat) {
+            ProductCategory::create($cat);
         }
     }
 }

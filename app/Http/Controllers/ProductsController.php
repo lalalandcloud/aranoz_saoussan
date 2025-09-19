@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Products_Cat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +15,9 @@ class ProductsController extends Controller
         $products = Product::with(['products_cat', 'promo']) // Au lieu de 'products_cat_id'
                         ->orderBy('created_at', 'desc') // Au lieu de 'description'
                         ->get();
-        $products_cat = Products_Cat::orderBy('name')->get();
+        $categories = ProductCategory::orderBy('name')->get();
 
-        return Inertia::render('Public/Home', compact('products', 'products_cat'));
+        return Inertia::render('Public/Home', compact('products', 'categories'));
     }
     public function create()
     {
