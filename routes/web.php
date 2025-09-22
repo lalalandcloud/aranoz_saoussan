@@ -20,6 +20,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -28,11 +30,11 @@ Route::middleware('auth')->group(function () {
 });
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [RoleController::class, 'dashboard'])->name('admin.dashboard');    
-
     Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
-
 });
 
+Route::get('/products/{product}', [ProductsController::class, 'show'])->name('public.show');
+Route::get('/home', [ProductsController::class, 'index'])->name('public.home');
 
 require __DIR__.'/auth.php';

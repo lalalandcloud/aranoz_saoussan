@@ -10,14 +10,27 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'price', 'stock', 'pin', 'colour', 'img_main', 'img_2', 'img_3', 'img_4',
+        'name', 
+        'description', 
+        'price', 
+        'stock', 
+        'pin', 
+        'colour', 
+        'products_cat_id', // Ajoutez cette ligne !
+        'promo_id',        // Ajoutez cette ligne !
+        'img_main', 
+        'img_2', 
+        'img_3', 
+        'img_4',
     ];
 
-    public function category(){
-    return $this->belongsTo(ProductCategory::class, 'products_cat_id');
-}
+    public function category()
+    {
+        return $this->belongsTo(ProductCategory::class, 'products_cat_id');
+    }
 
-    public function promo(){
-        return $this -> belongsTo(Promo::class);
+    public function promo()
+    {
+        return $this->belongsTo(Promo::class);
     }
 }
