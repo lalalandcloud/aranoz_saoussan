@@ -1,66 +1,180 @@
 import React from 'react';
 import { Head, Link, router } from '@inertiajs/react';
-import GuestLayout from '@/Layouts/GuestLayout';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import Dashboard from '../Dashboard';
 
-export default function dashboard({ users, roles }) {
+export default function Dashboard({ users, roles, products, cartItems, userPins }) {
+    
+    const deleteUser = (userId) => {
+        if (confirm('Supprimer cet utilisateur ?')) {
+            router.delete(`/admin/users/${userId}`);
+        }
+    };
+
     return (
         <>
-            <Head title="bienvenue" />
+            <Head title="Dashboard Admin" />
+            <div>
+                <h1>DASHBOARD ADMIN</h1>
+                <hr />
 
-            <div className="p-6">
-                <h1 className="text-2xl font-bold mb-6">Dashboard Admin</h1>
+                {/* STATS RAPIDES */}
+                <h2>RESUMÉ</h2>
+                <p>Utilisateurs: {users?.length || 0}</p>
+                <p>Produits: {products?.length || 0}</p>
+                <p>Articles dans paniers: {cartItems?.length || 0}</p>
+                <p>Produits aimés: {userPins?.length || 0}</p>
+                <hr />
+
+                {/* UTILISATEURS */}
+                <h2>UTILISATEURS ({users?.length || 0})</h2>
+                <table border="1" width="100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Adresse</th>
+                            <th>Rôle</th>
+                            <th>Inscrit le</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users?.map(user => (
+                            <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.first_name}</td>
+                                <td>{user.last_name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.address}</td>
+                                <td>{user.role?.name || 'Aucun'}</td>
+                                <td>{new Date(user.created_at).toLocaleDateString()}</td>
+                                <td>
+                                    <button onClick={() => deleteUser(user.id)}>
+                                        Supprimer
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Section Utilisateurs */}
-                    <div className="bg-white rounded-lg shadow p-6">
-                        <h2 className="text-xl font-semibold mb-4">
-                            Utilisateurs ({users?.length || 0})
-                        </h2>
-                        
-                        {users && users.length > 0 ? (
-                            <div className="space-y-3">
-                                {users.map(user => (
-                                    <div key={user.id} className="border-b pb-2">
-                                        <div className="font-medium">
-                                            {user.first_name} {user.last_name}
-                                        </div>
-                                        <div className="text-sm text-gray-600">
-                                            {user.email} - {user.role?.name || 'Pas de rôle'}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-gray-500">Aucun utilisateur trouvé</p>
-                        )}
-                    </div>
+                <hr />
 
-                    {/* Section Rôles */}
-                    <div className="bg-white rounded-lg shadow p-6">
-                        <h2 className="text-xl font-semibold mb-4">
-                            Rôles ({roles?.length || 0})
-                        </h2>
-                        
-                        {roles && roles.length > 0 ? (
-                            <div className="space-y-2">
-                                {roles.map(role => (
-                                    <div key={role.id} className="bg-blue-100 px-3 py-1 rounded">
-                                        {role.name}
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-gray-500">Aucun rôle trouvé</p>
-                        )}
-                    </div>
-                </div>
+                {/* PRODUITS */}
+                <h2>PRODUITS ({products?.length || 0})</h2>
+                {products?.length > 0 ? (
+                    <table border="1" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Prix</th>
+                                <th>Stock</th>
+                                <th>Catégorie</th>
+                                <th>Promo</th>
+                                <th>Créé le</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map(product => (
+                                <tr key={product.id}>
+                                    <td>{product.id}</td>
+                                    <td>{product.name}</td>
+                                    <td>{product.price}€</td>
+                                    <td>{product.stock}</td>
+                                    <td>{product.category?.name}</td>
+                                    <td>{product.promo ? `-${product.promo.percent}%` : 'Non'}</td>
+                                    <td>{new Date(product.created_at).toLocaleDateString()}</td>
+                                    <td>
+                                        <Link href={`/products/${product.id}`}>Voir</Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>Aucun produit</p>
+                )}
+                
+                <hr />
+
+                {/* PANIERS ACTIFS */}
+                <h2>PANIERS ACTIFS ({cartItems?.length || 0})</h2>
+                {cartItems?.length > 0 ? (
+                    <table border="1" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Produit</th>
+                                <th>Quantité</th>
+                                <th>Ajouté le</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cartItems.map(item => (
+                                <tr key={item.id}>
+                                    <td>{item.user?.first_name} {item.user?.last_name}</td>
+                                    <td>{item.product?.name}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{new Date(item.created_at).toLocaleDateString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>Aucun panier actif</p>
+                )}
+                
+                <hr />
+
+                {/* PRODUITS FAVORIS */}
+                <h2>PRODUITS FAVORIS ({userPins?.length || 0})</h2>
+                {userPins?.length > 0 ? (
+                    <table border="1" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Produit</th>
+                                <th>Ajouté le</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {userPins.map(pin => (
+                                <tr key={pin.id}>
+                                    <td>{pin.user?.first_name} {pin.user?.last_name}</td>
+                                    <td>{pin.product?.name}</td>
+                                    <td>{new Date(pin.created_at).toLocaleDateString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>Aucun favori</p>
+                )}
+                
+                <hr />
+                
+                <h2>ROLES ({roles?.length || 0})</h2>
+                <ul>
+                    {roles?.map(role => (
+                        <li key={role.id}>
+                            <strong>{role.name}</strong>
+                        </li>
+                    ))}
+                </ul>
+                
+                <hr />
+                
+                <h2>ACTIONS</h2>
+                <Link href="/admin/products/create">
+                    <button>Ajouter un produit</button>
+                </Link>
             </div>
-        </>)
+        </>
+    );
 }
-Dashboard.layout = (page) => (
-    page.props.auth && page.props.auth.user 
-        ? <AuthenticatedLayout>{page}</AuthenticatedLayout>
-        : <GuestLayout>{page}</GuestLayout>
-);
+
+Dashboard.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
