@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserPinsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,20 +17,25 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
    
+    Route::prefix('public/user')->name('user.')->group(function () {
+        Route::get('/pins', [UserPinsController::class, 'index'])->name('pins.index');
+    });
+    Route::post('/products/{product}/toggle-pin', [UserPinsController::class, 'toggle'])->name('products.toggle-pin');
 });
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [RoleController::class, 'dashboard'])->name('admin.dashboard');    
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [RoleController::class, 'dashboard'])->name('dashboard');    
     Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
 });

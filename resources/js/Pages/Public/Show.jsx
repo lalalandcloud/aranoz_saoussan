@@ -2,6 +2,7 @@ import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
+import PinButton from '@/Components/PinButton';
 
 export default function Show({ product }) {
     return (
@@ -28,7 +29,7 @@ export default function Show({ product }) {
                 
                 <p>Couleur: {product.colour}</p>
                 
-                {product.pin && <p>⭐ Produit épinglé</p>}
+                <PinButton product={product} />
                 
                 <h3>Description</h3>
                 <p>{product.description}</p>

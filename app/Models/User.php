@@ -37,6 +37,26 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+     public function userPins()
+    {
+        return $this->hasMany(UserPin::class);
+    }
+
+    /**
+     * Relation many-to-many avec les produits épinglés
+     */
+    public function pinnedProducts()
+    {
+        return $this->belongsToMany(Product::class, 'user_pins');
+    }
+
+    /**
+     * Vérifier si un produit est épinglé par l'utilisateur
+     */
+    public function hasPinned($productId)
+    {
+        return $this->userPins()->where('product_id', $productId)->exists();
+    }
     /**
      * Get the attributes that should be cast.
      *

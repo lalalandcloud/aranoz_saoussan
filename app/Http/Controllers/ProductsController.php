@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\UserPin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -14,7 +15,13 @@ class ProductsController extends Controller
     {
         $products = Product::with(['category', 'promo'])
                         ->orderBy('created_at', 'desc')
-                        ->get();
+                        ->get()
+                        ->map(function ($product) {
+                            $product->is_pinned_by_user = Auth::check() ? 
+                                $product->userPins()->where('user_id', Auth::id())->exists() : false;
+                            $product->pins_count = $product->userPins()->count();                            
+                            return $product;
+                        });
         $categories = ProductCategory::orderBy('name')->get();
 
         return Inertia::render('Public/Home', compact('products', 'categories'));
@@ -64,6 +71,10 @@ class ProductsController extends Controller
     public function show(Product $product)
     {
         $product->load(['category']); // 'category' au lieu de 'products_cat'
+        
+        $product->is_pinned_by_user = Auth::check() ? 
+            $product->userPins()->where('user_id', Auth::id())->exists() : false;
+        $product->pins_count = $product->userPins()->count();
         
         return Inertia::render('Public/Show', [
             'product' => $product,

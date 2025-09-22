@@ -1,11 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
-
+                                <PinButton product={product} />
 
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 
-export default function Home({ products, categories }) {
+export default function Home({ products, categories, auth }) {
     return (
         <>
             <Head title="Catalogue" />
@@ -14,6 +14,12 @@ export default function Home({ products, categories }) {
                 <h1>Catalogue de produits</h1>
                 
                 <Link href="/products/create">Ajouter un produit</Link>
+                
+                {auth?.user && (
+                    <div>
+                        <Link href="/public/user/pins">❤️ Mes favoris</Link>
+                    </div>
+                )}
                 
                 <h2>Catégories</h2>
                 <ul>
@@ -39,16 +45,18 @@ export default function Home({ products, categories }) {
                                     alt={product.name}
                                 />
                                 
+                                <PinButton product={product} />
+                                
                                 <p>Prix: {product.price}€</p>
                                 <p>Stock: {product.stock}</p>
                                 <p>Catégorie: {product.category?.name}</p>
                                 
-                                <p>&#9829; {product.pin} &#9829;</p>                              
+                                {product.pin && <p>⭐ Épinglé par l'admin</p>}
                                 
                                 <p>{product.description}</p>
                                 
                                 <Link href={`/products/${product.id}`}>Voir détails</Link>
-            
+                                
                                 <hr />
                             </div>
                         ))}
