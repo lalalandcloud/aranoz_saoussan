@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserPinsController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\UserCartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/dashboard', [RoleController::class, 'dashboard'])->name('dashboard');    
     Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
+    Route::get('/products/promos', [PromoController::class, 'index'])->name('promos.index');
+    Route::post('/products/promos/apply-random', [PromoController::class, 'applyRandomPromos'])->name('promos.apply-random');
+    Route::post('/products/promos/remove-all', [PromoController::class, 'removeAllPromos'])->name('promos.remove-all');
+
 });
 
 Route::get('/products/{product}', [ProductsController::class, 'show'])->name('public.show');
