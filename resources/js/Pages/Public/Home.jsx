@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
-                                <PinButton product={product} />
+import PinButton from '@/Components/PinButton';
+import AddToCart from '@/Components/AddToCart';
 
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
@@ -13,7 +14,6 @@ export default function Home({ products, categories, auth }) {
             <div>
                 <h1>Catalogue de produits</h1>
                 
-                <Link href="/products/create">Ajouter un produit</Link>
                 
                 {auth?.user && (
                     <div>
@@ -47,9 +47,12 @@ export default function Home({ products, categories, auth }) {
                                 
                                 <PinButton product={product} />
                                 
+
                                 <p>Prix: {product.price}€</p>
                                 <p>Stock: {product.stock}</p>
                                 <p>Catégorie: {product.category?.name}</p>
+                                
+                                <AddToCart product={product} />
                                 
                                 {product.pin && <p>⭐ Épinglé par l'admin</p>}
                                 

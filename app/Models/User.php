@@ -72,4 +72,36 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class);
     }
+    
+    public function cartItems()
+    {
+        return $this->hasMany(UserCart::class);
+    }
+
+    /**
+     * Obtenir tous les produits dans le panier de l'utilisateur
+     */
+    public function cartProducts()
+    {
+        return $this->belongsToMany(Product::class, 'user_carts')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
+    }
+
+    /**
+     * Calculer le total du panier
+     */
+    public function getCartTotalAttribute()
+    {
+        return $this->cartItems()->with('product.promo')->get()->sum('final_price');
+    }
+
+    /**
+     * Obtenir le nombre total d'items dans le panier
+     */
+    public function getCartCountAttribute()
+    {
+        return $this->cartItems()->sum('quantity');
+    }
+
 }

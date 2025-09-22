@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
 import PinButton from '@/Components/PinButton';
+import AddToCart from '@/Components/AddToCart';
 
 export default function Show({ product }) {
     return (
@@ -30,6 +31,8 @@ export default function Show({ product }) {
                 <p>Couleur: {product.colour}</p>
                 
                 <PinButton product={product} />
+
+                <AddToCart product={product} />
                 
                 <h3>Description</h3>
                 <p>{product.description}</p>

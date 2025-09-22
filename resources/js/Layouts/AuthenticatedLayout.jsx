@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
+import CartCounter from '@/Components/CartCounter';
 
 export default function AuthenticatedLayout({ header, children }) {
-const page = usePage();
+    const page = usePage();
     
     console.log('Full page object:', page);
     console.log('Page props:', page.props);
@@ -42,7 +43,6 @@ const page = usePage();
                     <Link href={route('public.home')} className="navbar-brand">
                         AutoMarket
                     </Link>
-                    
                     <div className="navbar-nav me-auto">
                         <Link href={route('public.home')} className="nav-link">
                             Accueil
@@ -61,6 +61,7 @@ const page = usePage();
                         <span className="navbar-text text-white">
                             Bonjour {user.first_name} {user.last_name}
                         </span>
+                        <CartCounter />
                         <button 
                             onClick={handleLogout} 
                             className="btn btn-outline-light ms-2"

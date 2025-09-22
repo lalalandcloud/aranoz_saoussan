@@ -4,10 +4,10 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserPinsController;
+use App\Http\Controllers\UserCartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),
@@ -30,8 +30,15 @@ Route::middleware('auth')->group(function () {
    
     Route::prefix('public/user')->name('user.')->group(function () {
         Route::get('/pins', [UserPinsController::class, 'index'])->name('pins.index');
+        Route::get('/cart', [UserCartController::class, 'index'])->name('cart.index');
     });
     Route::post('/products/{product}/toggle-pin', [UserPinsController::class, 'toggle'])->name('products.toggle-pin');
+
+    Route::post('/cart/add/{product}', [UserCartController::class, 'store'])->name('cart.store');
+    Route::put('/cart/{cartItem}', [UserCartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{cartItem}', [UserCartController::class, 'destroy'])->name('cart.destroy');
+    Route::delete('/cart', [UserCartController::class, 'clear'])->name('cart.clear');
+    Route::get('/cart/count', [UserCartController::class, 'count'])->name('cart.count');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {

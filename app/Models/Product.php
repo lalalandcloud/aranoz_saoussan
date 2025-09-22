@@ -67,4 +67,44 @@ class Product extends Model
                    ->where('user_id', auth()->id())
                    ->exists();
     }
+
+    public function cartItems()
+    {
+        return $this->hasMany(UserCart::class);
+    }
+
+    /**
+     * Obtenir les utilisateurs qui ont ce produit dans leur panier
+     */
+    public function cartUsers()
+    {
+        return $this->belongsToMany(User::class, 'user_carts')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
+    }
+
+    /**
+     * Vérifier si le produit est dans le panier de l'utilisateur connecté
+     */
+    public function getIsInCartAttribute()
+    {
+        if (!auth()->check()) {
+            return false;
+        }
+        
+        return $this->cartItems()->where('user_id', auth()->id())->exists();
+    }
+
+    /**
+     * Obtenir la quantité de ce produit dans le panier de l'utilisateur connecté
+     */
+    public function getCartQuantityAttribute()
+    {
+        if (!auth()->check()) {
+            return 0;
+        }
+        
+        $cartItem = $this->cartItems()->where('user_id', auth()->id())->first();
+        return $cartItem ? $cartItem->quantity : 0;
+    }
 }
