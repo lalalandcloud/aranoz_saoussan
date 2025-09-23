@@ -47,8 +47,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
     Route::get('/products/promos', [PromoController::class, 'index'])->name('promos.index');
-    Route::post('/products/promos/apply-random', [PromoController::class, 'applyRandomPromos'])->name('promos.apply-random');
-    Route::post('/products/promos/remove-all', [PromoController::class, 'removeAllPromos'])->name('promos.remove-all');
+    Route::post('/promos/apply-random', [PromoController::class, 'applyRandomPromos'])->name('promos.apply-random');
+    Route::post('/promos/remove-all', [PromoController::class, 'removeAllPromos'])->name('promos.remove-all');
 
 });
 

@@ -28,10 +28,8 @@ class PromoController extends Controller
             return back()->with('error', 'Aucune promo disponible');
         }
         
-        // Retirer toutes les promos existantes
-        Product::update(['promo_id' => null]);
-        
-        // Sélectionner aléatoirement des produits
+        Product::whereNotNull('promo_id')->update(['promo_id' => null]);
+
         $randomProducts = $products->random($promoCount);
         
         foreach ($randomProducts as $product) {
@@ -48,7 +46,11 @@ class PromoController extends Controller
      */
     public function removeAllPromos()
     {
-        Product::update(['promo_id' => null]);
+        // CORRECTION - même style que vos autres controllers
+        $productsWithPromo = Product::whereNotNull('promo_id')->get();
+        foreach ($productsWithPromo as $product) {
+            $product->update(['promo_id' => null]);
+        }
         
         return back()->with('success', 'Toutes les promos ont été supprimées');
     }
