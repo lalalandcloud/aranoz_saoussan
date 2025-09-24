@@ -3,8 +3,9 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link } from '@inertiajs/react';
 
 export default function Dashboard() {
+    
     return (
-        <>
+        <AuthenticatedLayout>
             <Head title="Dashboard" />
 
             <div className="py-12">
@@ -24,11 +25,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-        </>
+        </AuthenticatedLayout>
     );
 }
-Dashboard.layout = (page) => (
-    page.props.auth && page.props.auth.user 
-        ? <AuthenticatedLayout>{page}</AuthenticatedLayout>
-        : <GuestLayout>{page}</GuestLayout>
-);

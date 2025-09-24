@@ -1,18 +1,38 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
+import React from 'react';
 import { Link } from '@inertiajs/react';
 
 export default function GuestLayout({ children }) {
     return (
-        <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
-            <div>
-                <Link href="/">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
-                </Link>
-            </div>
+        <div>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className="container">
+                    <Link href={route('public.home')} className="navbar-brand">
+                        AutoMarket
+                    </Link>
+                    
+                    <div className="navbar-nav ms-auto">
+                        <Link href={route('public.home')} className="nav-link">
+                            Accueil
+                        </Link>
+                        <Link href="/login" className="nav-link">
+                            Connexion
+                        </Link>
+                        <Link href="/register" className="nav-link">
+                            Inscription
+                        </Link>
+                    </div>
+                </div>
+            </nav>
 
-            <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
+            <main>
                 {children}
-            </div>
+            </main>
+
+            <footer className="bg-light py-4 mt-5">
+                <div className="container text-center">
+                    <p className="text-muted mb-0">© 2025 Aranoz - Vente de Meubles en ligne</p>
+                </div>
+            </footer>
         </div>
     );
 }
