@@ -23,7 +23,7 @@ export default function AuthenticatedLayout({ header, children }) {
     if (!auth.user) {
         return <div>Erreur: Utilisateur non trouvé</div>;
     }
-    
+
     // MAINTENANT on peut accéder aux données en sécurité
     const user = auth.user;
     console.log('User:', user);
@@ -41,7 +41,7 @@ export default function AuthenticatedLayout({ header, children }) {
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
                     <Link href={route('public.home')} className="navbar-brand">
-                        AutoMarket
+                        Aranoz
                     </Link>
                     <div className="navbar-nav me-auto">
                         <Link href={route('public.home')} className="nav-link">

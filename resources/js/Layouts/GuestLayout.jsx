@@ -7,7 +7,7 @@ export default function GuestLayout({ children }) {
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
                     <Link href={route('public.home')} className="navbar-brand">
-                        AutoMarket
+                        Aranoz
                     </Link>
                     
                     <div className="navbar-nav ms-auto">
