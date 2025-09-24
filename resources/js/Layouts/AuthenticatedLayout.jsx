@@ -33,7 +33,7 @@ export default function AuthenticatedLayout({ header, children }) {
     console.log('IsAdmin:', isAdmin);
 
     const handleLogout = () => {
-        router.post(route('logout'));
+        router.post('/logout');
     };
 
     return (
@@ -52,6 +52,18 @@ export default function AuthenticatedLayout({ header, children }) {
                             <>
                                 <Link href="/admin/dashboard" className="nav-link">
                                     Dashboard Admin
+                                </Link>
+                                {/* <Link href="/admin/products/" className="nav-link">
+                                    Tous les produits
+                                </Link> */}
+                                <Link href="/admin/products/create" className="nav-link">
+                                    Ajouter un produit
+                                </Link>
+                                <Link href="/admin/products/coupons" className="nav-link">
+                                    Coupons
+                                </Link>
+                                <Link href="/admin/products/promos" className="nav-link">
+                                    Promos
                                 </Link>
                             </>
                         )}
