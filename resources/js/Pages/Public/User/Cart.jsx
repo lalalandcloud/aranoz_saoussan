@@ -1,8 +1,7 @@
-// Cart.jsx - Version ultra simple
 import { Link, router } from '@inertiajs/react'
+import CouponForm from '@/Components/CouponForm';
 
-export default function Cart({ cartItems, cartTotal, cartCount }) {
-    const formatPrice = (price) => parseFloat(price).toFixed(2)
+export default function Cart({ cartItems, cartTotal, cartCount, appliedCoupon, removeCoupon, discountAmount, finalTotal }) {    const formatPrice = (price) => parseFloat(price).toFixed(2)
 
     const getPriceWithPromo = (product) => {
         if (!product.promo) return product.price
@@ -21,7 +20,10 @@ export default function Cart({ cartItems, cartTotal, cartCount }) {
     const clearCart = () => {
         router.delete('/cart')
     }
-
+    const calculateItemTotal = (item) => {
+        const basePrice = getPriceWithPromo(item.product)
+        return basePrice * item.quantity
+    }
     return (
         <div>
             <h1>Mon Panier</h1>
@@ -45,13 +47,26 @@ export default function Cart({ cartItems, cartTotal, cartCount }) {
                             {item.quantity}
                             <button onClick={() => updateQuantity(item, item.quantity + 1)}>+</button>
                             
-                            <p>Total: {formatPrice(item.final_price)}€</p>
+                            <p>Total: {formatPrice(calculateItemTotal(item))}€</p>
                             <button onClick={() => removeItem(item)}>Supprimer</button>
                             <hr />
                         </div>
                     ))}
 
-                    <h2>TOTAL: {formatPrice(cartTotal)}€</h2>
+                    <h2>SOUS-TOTAL: {formatPrice(cartTotal)}€</h2>
+
+                    {appliedCoupon ? (
+                        <div>
+                            <p>Coupon appliqué: <strong>{appliedCoupon.coupon.code}</strong> (-{appliedCoupon.coupon.percent}%)</p>
+                            <p>Réduction: -{formatPrice(discountAmount || 0)}€</p>
+                            <button onClick={removeCoupon}>Retirer le coupon</button>
+                        </div>
+                    ) : (
+                        <CouponForm cartTotal={cartTotal} />
+                    )}
+
+                    <h2>TOTAL: {formatPrice(cartTotal) - (discountAmount)}€</h2>
+
                     <button>Commander</button>
                     <button onClick={clearCart}>Vider panier</button>
                 </div>

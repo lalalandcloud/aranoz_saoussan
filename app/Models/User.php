@@ -103,5 +103,15 @@ class User extends Authenticatable
     {
         return $this->cartItems()->sum('quantity');
     }
+    
+    public function appliedCartCoupon()
+    {
+        return $this->hasOne(UserCartCoupon::class);
+    }
+
+    public function getAppliedCouponAttribute()
+    {
+        return $this->appliedCartCoupon;
+    }
 
 }

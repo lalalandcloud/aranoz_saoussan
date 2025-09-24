@@ -33,7 +33,6 @@ class PromoController extends Controller
         $randomProducts = $products->random($promoCount);
         
         foreach ($randomProducts as $product) {
-            // Assigner une promo aléatoire
             $randomPromo = $promos->random();
             $product->update(['promo_id' => $randomPromo->id]);
         }

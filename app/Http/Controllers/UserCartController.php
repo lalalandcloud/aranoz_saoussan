@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserCart;
+use App\Models\UserCartCoupon;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -95,10 +96,32 @@ class UserCartController extends Controller
         $cartTotal = $cartItems->sum('total_price');
         $cartCount = $cartItems->sum('quantity');
 
+        $appliedCoupon = UserCartCoupon::where('user_id', Auth::id())
+        ->with('coupon')
+        ->first();
+
+    // Calculer le total final avec coupon
+        $finalTotal = $cartTotal;
+        $discountAmount = 0;
+        
+        if ($appliedCoupon) {
+            $discountAmount = $appliedCoupon->coupon->calculateDiscount($cartTotal);
+            $finalTotal = $cartTotal - $discountAmount;
+            
+            // Mettre à jour les montants dans la pivot
+            $appliedCoupon->update([
+                'original_total' => $cartTotal,
+                'discount_amount' => $discountAmount,
+                'final_total' => $finalTotal
+            ]);
+        }
         return Inertia::render('Public/User/Cart', [
             'cartItems' => $cartItems,
             'cartTotal' => $cartTotal,
-            'cartCount' => $cartCount
+            'cartCount' => $cartCount,
+            'appliedCoupon' => $appliedCoupon,
+            'discountAmount' => $discountAmount,
+            'finalTotal' => $finalTotal
         ]);
     }
 

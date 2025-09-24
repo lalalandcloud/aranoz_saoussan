@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserPinsController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\UserCartController;
+use App\Http\Controllers\CouponController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,15 +41,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{cartItem}', [UserCartController::class, 'destroy'])->name('cart.destroy');
     Route::delete('/cart', [UserCartController::class, 'clear'])->name('cart.clear');
     Route::get('/cart/count', [UserCartController::class, 'count'])->name('cart.count');
+
+    Route::post('/coupons/check', [CouponController::class, 'checkCoupon'])->name('coupons.check');
+    Route::delete('/coupons/remove', [CouponController::class, 'removeCoupon'])->name('coupons.remove');
+    // Route::post('/coupons/use', [CouponController::class, 'use'])->name('coupons.use');
+
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [RoleController::class, 'dashboard'])->name('dashboard');    
+
     Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
+
     Route::get('/products/promos', [PromoController::class, 'index'])->name('promos.index');
     Route::post('/promos/apply-random', [PromoController::class, 'applyRandomPromos'])->name('promos.apply-random');
     Route::post('/promos/remove-all', [PromoController::class, 'removeAllPromos'])->name('promos.remove-all');
+
+    Route::get('/products/coupons', [CouponController::class, 'index'])->name('coupons.index');
+    Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
+    Route::delete('/coupons/{coupon}', [CouponController::class, 'destroy'])->name('coupons.destroy');
 
 });
 
