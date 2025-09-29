@@ -27,7 +27,8 @@ class BlogCatController extends Controller
         ]);
         
         BlogCat::create($validated);
-        return redirect()->route('blog_cats.index');
+        return redirect()->route('admin.dasboard')
+            ->with('success', 'Catégorie ajouté avec succès !');
     }
 
 }

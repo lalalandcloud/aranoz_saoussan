@@ -9,7 +9,7 @@ export default function CreateBlogCat() {
 
     const submit = (e) => {
         e.preventDefault();
-       post(route('blogs.category.store'));
+       post(route('admin.blogs.category.store'));
     };
 
     return (
