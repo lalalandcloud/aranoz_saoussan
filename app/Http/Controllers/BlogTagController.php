@@ -27,7 +27,7 @@ class BlogTagController extends Controller
         ]);
         
         BlogTag::create($validated);
-        return redirect()->route('admin.dasboard')
-            ->with('success', 'Tag ajouté avec succès !');
+
+        return back()->with('success', 'Tag créé avec succès !');
     }
 }
