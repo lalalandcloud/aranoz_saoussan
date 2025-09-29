@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\BlogCatController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BlogTagController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -63,9 +65,19 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::delete('/coupons/{coupon}', [CouponController::class, 'destroy'])->name('coupons.destroy');
 
+    Route::get('/blog/new', [BlogController::class, 'create'])->name('blogs.article.create');
+    Route::post('/blog', [BlogController::class, 'store'])->name('blogs.article.store');
+
+    Route::get('/blog/tag/new', [BlogTagController::class, 'create'])->name('blogs.tag.create');
+    Route::post('/blog/tag', [BlogTagController::class, 'store'])->name('blogs.tag.store');
+
+    Route::get('/blog/category/new', [BlogCatController::class, 'create'])->name('blogs.category.create');
+    Route::post('/blog/category', [BlogCatController::class, 'store'])->name('blogs.category.store');
+
 });
 
 Route::get('/products/{product}', [ProductsController::class, 'show'])->name('public.show');
 Route::get('/home', [ProductsController::class, 'index'])->name('public.home');
 Route::get('/blogs', [BlogController::class, 'index'])->name('public.blogs.index');
+
 require __DIR__.'/auth.php';

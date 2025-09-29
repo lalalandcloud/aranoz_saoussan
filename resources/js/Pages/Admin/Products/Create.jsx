@@ -180,8 +180,4 @@ export default function Create({ categories }) {
         </>
     );
 }
-Create.layout = (page) => (
-    page.props.auth && page.props.auth.user 
-        ? <AuthenticatedLayout>{page}</AuthenticatedLayout>
-        : <GuestLayout>{page}</GuestLayout>
-);
+Create.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
