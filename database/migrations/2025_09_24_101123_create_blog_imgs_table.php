@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('blog_imgs', function (Blueprint $table) {
             $table->id();
+            $table->string('img', 500)->nullable(); 
+            $table->string('img2')->nullable();
+            $table->foreignId('blog_id')->constrained('blogs')->onDelete('cascade');
             $table->timestamps();
         });
     }

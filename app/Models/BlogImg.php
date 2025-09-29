@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogImg extends Model
 {
-    /** @use HasFactory<\Database\Factories\BlogImgFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'img',
+        'img2',
+        'blog_id',
+    ];
+
+    public function blog(){
+        return $this->hasOne(Blog::class);
+    }
 }

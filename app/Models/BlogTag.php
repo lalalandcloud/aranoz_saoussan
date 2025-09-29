@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogTag extends Model
 {
-    /** @use HasFactory<\Database\Factories\BlogTagFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'icon'
+    ];
+
+    public function blog(){
+        return $this->hasMany(Blog::class);
+    }
+
 }
