@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             BlogTagSeeder::class,    
             BlogSeeder::class,    
             BlogImgSeeder::class,    
+            BlogTagPivotSeeder::class,    
         ]);   
     }
 }

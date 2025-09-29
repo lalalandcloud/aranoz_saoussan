@@ -14,8 +14,8 @@ class BlogTag extends Model
         'icon'
     ];
 
-    public function blog(){
-        return $this->hasMany(Blog::class);
+    public function blogs(){
+        return $this->belongsToMany(Blog::class);
     }
 
 }

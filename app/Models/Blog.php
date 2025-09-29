@@ -12,7 +12,6 @@ class Blog extends Model
     protected $fillable = [
         'titre',
         'article',
-        'blog_tag_id',
         'blog_cat_id',
         'user_id'
     ];
@@ -24,8 +23,11 @@ class Blog extends Model
     public function blogCat(){
         return $this->belongsTo(BlogCat::class);
     }
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
-    public function blogImg(){
+    public function blogImgs(){
         return $this->hasMany(BlogImg::class);
     }
 }

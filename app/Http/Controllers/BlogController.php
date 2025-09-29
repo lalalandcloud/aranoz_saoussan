@@ -12,8 +12,7 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::with(['blogTag', 'blogCat', 'blogImgs', 'user'])->get();
-        return Inertia::render('Public/Blogs/Index', compact('blogs'));
-
+        return Inertia::render('Public/Blogs/Index',['blogs' => $blogs]);
     }
 
     public function show($id)

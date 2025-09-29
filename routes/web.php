@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -66,5 +67,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 Route::get('/products/{product}', [ProductsController::class, 'show'])->name('public.show');
 Route::get('/home', [ProductsController::class, 'index'])->name('public.home');
-
+Route::get('/blogs', [BlogController::class, 'index'])->name('public.blogs.index');
 require __DIR__.'/auth.php';
