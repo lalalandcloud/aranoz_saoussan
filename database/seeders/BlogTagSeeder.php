@@ -15,25 +15,25 @@ class BlogTagSeeder extends Seeder
     {
         $blog_tags = [
             ['name' => 'Voyage en Famille', 
-            'icon' => '$#ff6b6b'],
+            'icon' => '<i class="fa-solid fa-image"></i>'],
             ['name' => 'Aventure', 
-            'icon' => '$#4ecdc4'],
+            'icon' => '<i class="fa-solid fa-house"></i>'],
             ['name' => 'Détente', 
-            'icon' => '$#45b7d1'],
+            'icon' => '<i class="fa-solid fa-cloud"></i>'],
             ['name' => 'Romantique', 
-            'icon' => '$#f093fb'],
+            'icon' => '<i class="fa-solid fa-sun"></i>'],
             ['name' => 'Budget Serré', 
-            'icon' => '$#feca57'],
+            'icon' => '<i class="fa-solid fa-bell"></i>'],
             ['name' => 'Luxe', 
-            'icon' => '$#ff9ff3'],
+            'icon' => '<i class="fa-solid fa-camera"></i>'],
             ['name' => 'Nature', 
-            'icon' => '$#00d2d3'],
+            'icon' => '<i class="fa-solid fa-moon"></i>'],
             ['name' => 'Culture', 
-            'icon' => '$#ff7675'],
+            'icon' => '<i class="fa-solid fa-bomb"></i>'],
             ['name' => 'Gastronomie', 
-            'icon' => '$#fd79a8'],
+            'icon' => '<i class="fa-solid fa-star"></i>'],
             ['name' => 'Solo', 
-            'icon' => '$#6c5ce7']
+            'icon' => '<i class="fa-solid fa-poo"></i>'],
         ];
         
         foreach ($blog_tags as $blog_tag){
