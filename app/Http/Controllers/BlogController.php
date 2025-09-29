@@ -61,7 +61,7 @@ class BlogController extends Controller
 
         BlogImg::create(array_merge($imagePaths, ['blog_id' => $blog->id]));
 
-        return redirect()->route('blogs.show', $blog->id)
-                        ->with('success', 'Blog ajouté avec succès !');
+        return redirect()->route('public.blogs.index')
+            ->with('success', 'Blog ajouté avec succès !');
     }
 }
