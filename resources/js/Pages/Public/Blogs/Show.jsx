@@ -9,7 +9,7 @@ export default function Show({ blog, auth }) {
             <Head title={blog.titre} />
             
             <div>
-                <Link href={route('public.blogs.index')}>← Retour aux blogs</Link>
+                <Link href="/blogs">← Retour aux blogs</Link>
                 
                 <h1>{blog.titre}</h1>
                 
@@ -35,9 +35,9 @@ export default function Show({ blog, auth }) {
                     </div>
                 )}
 
-                {blog.blog_imgs?.[1]?.img2 && (
+                {blog.blog_imgs?.[0]?.img2 && (
                     <div>
-                        <img src={`/storage/${blog.blog_imgs[1].img2}`} alt={blog.titre} />
+                        <img src={`/storage/${blog.blog_imgs[0].img2}`} alt={blog.titre} />
                     </div>
                 )}
 
