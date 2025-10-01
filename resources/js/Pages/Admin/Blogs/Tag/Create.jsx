@@ -9,7 +9,8 @@ export default function CreateBlogTag() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('admin.blogs.tag.store'));
+        post(route('admin.blogs.tag.store')
+    );
     };
 
     return (

@@ -2,14 +2,16 @@ import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function CreateBlogCat() {
-    const { data, setData, post, errors } = useForm({
+    const { data, setData, post, errors, processing } = useForm({
         name: '',
-        img: ''
+        img: null
     });
 
     const submit = (e) => {
         e.preventDefault();
-       post(route('admin.blogs.category.store'));
+        post(route('admin.blogs.category.store'), {
+            forceFormData: true,
+        });
     };
 
     return (
@@ -30,16 +32,18 @@ export default function CreateBlogCat() {
                     </div>
 
                     <div>
-                        <label>Image (URL):</label>
+                        <label>Image:</label>
                         <input 
-                            type="text" 
-                            value={data.img} 
-                            onChange={e => setData('img', e.target.value)}
+                            type="file" 
+                            accept="image/jpeg,image/png,image/jpg,image/gif"
+                            onChange={e => setData('img', e.target.files[0])}
                         />
                         {errors.img && <div>{errors.img}</div>}
                     </div>
 
-                    <button type="submit">Créer</button>
+                    <button type="submit" disabled={processing}>
+                        {processing ? 'Création...' : 'Créer'}
+                    </button>
                 </form>
             </div>
         </>

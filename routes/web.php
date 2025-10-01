@@ -68,11 +68,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/blogs/article/new', [BlogController::class, 'create'])->name('blogs.article.create');
     Route::post('/blogs/article', [BlogController::class, 'store'])->name('blogs.article.store');
 
-    Route::get('/blogs/tag/new', [BlogTagController::class, 'create'])->name('blogs.tag.create');
-    Route::post('/blogs/tag', [BlogTagController::class, 'store'])->name('blogs.tag.store');
+    Route::get('/blog/tag/new', [BlogTagController::class, 'create'])->name('blogs.tag.create');
+    Route::post('/blog/tag', [BlogTagController::class, 'store'])->name('blogs.tag.store');
 
-    Route::get('/blogs/category/new', [BlogCatController::class, 'create'])->name('blogs.category.create');
-    Route::post('/blogs/category', [BlogCatController::class, 'store'])->name('blogs.category.store');
+    Route::get('/blog/category/new', [BlogCatController::class, 'create'])->name('blogs.category.create');
+    Route::post('/blog/category', [BlogCatController::class, 'store'])->name('blogs.category.store');
 
 });
 

@@ -23,10 +23,19 @@ class BlogCatController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'img' => 'required|string|max:500'
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
         
-        BlogCat::create($validated);
+        $imagePath = null;
+        if ($request->hasFile('img')) {
+            $imagePath = $request->file('img')->store('blog_cats/images', 'public');
+        }
+        
+        BlogCat::create([
+            'name' => $validated['name'],
+            'img' => $imagePath
+        ]);
+        
         return back()->with('success', 'Catégorie créé avec succès !');
     }
 
