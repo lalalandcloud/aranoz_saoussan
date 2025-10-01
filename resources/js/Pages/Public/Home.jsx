@@ -17,7 +17,7 @@ export default function Home({ products, categories, auth }) {
                 
                 {auth?.user && (
                     <div>
-                        <Link href="/public/user/pins">❤️ Mes favoris</Link>
+                        <Link href="/public/user/pins"> Mes favoris</Link>
                     </div>
                 )}
                 

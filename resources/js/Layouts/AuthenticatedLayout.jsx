@@ -65,6 +65,15 @@ export default function AuthenticatedLayout({ header, children }) {
                                 <Link href="/admin/products/promos" className="nav-link">
                                     Promos
                                 </Link>
+                                <Link href="/admin/blogs/article/new" className="nav-link">
+                                    Blog - Nouvel article
+                                </Link>
+                                <Link href="/admin/blog/category/new" className="nav-link">
+                                    Blog - Nouvelle catégorie
+                                </Link>
+                                <Link href="/admin/blog/tag/new" className="nav-link">
+                                    Blog - Nouveau tag
+                                </Link>
                             </>
                         )}
                     </div>

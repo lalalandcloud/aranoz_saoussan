@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\BlogCatController;
+use App\Http\Controllers\BlogCommentController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BlogTagController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -46,6 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/coupons/remove', [CouponController::class, 'removeCoupon'])->name('coupons.remove');
     // Route::post('/coupons/use', [CouponController::class, 'use'])->name('coupons.use');
 
+    Route::post('/blogs/{blog}/comments', [BlogCommentController::class, 'store'])->name('blogs.comments.store');
+    Route::put('/comments/{comment}', [BlogCommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [BlogCommentController::class, 'destroy'])->name('comments.destroy');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -62,9 +69,19 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::delete('/coupons/{coupon}', [CouponController::class, 'destroy'])->name('coupons.destroy');
 
+    Route::get('/blogs/article/new', [BlogController::class, 'create'])->name('blogs.article.create');
+    Route::post('/blogs/article', [BlogController::class, 'store'])->name('blogs.article.store');
+
+    Route::get('/blog/tag/new', [BlogTagController::class, 'create'])->name('blogs.tag.create');
+    Route::post('/blog/tag', [BlogTagController::class, 'store'])->name('blogs.tag.store');
+
+    Route::get('/blog/category/new', [BlogCatController::class, 'create'])->name('blogs.category.create');
+    Route::post('/blog/category', [BlogCatController::class, 'store'])->name('blogs.category.store');
+
 });
 
 Route::get('/products/{product}', [ProductsController::class, 'show'])->name('public.show');
 Route::get('/home', [ProductsController::class, 'index'])->name('public.home');
-
+Route::get('/blogs', [BlogController::class, 'index'])->name('public.blogs.index');
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('public.blogs.show');
 require __DIR__.'/auth.php';

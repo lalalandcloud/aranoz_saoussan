@@ -10,7 +10,7 @@ class PromoSeeder extends Seeder
     public function run(): void
     {
         // Supprimer les promos existantes
-        Promo::truncate();
+        Promo::query()->delete();
         
         // Promos entre 20% et 40%
         $promos = [
@@ -25,6 +25,5 @@ class PromoSeeder extends Seeder
             Promo::create($promo);
         }
         
-        echo "5 promos créées (20% à 40%)\n";
     }
 }
