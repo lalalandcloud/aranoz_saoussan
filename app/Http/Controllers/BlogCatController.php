@@ -36,7 +36,7 @@ class BlogCatController extends Controller
             'img' => $imagePath
         ]);
         
-        return back()->with('success', 'Catégorie créé avec succès !');
+        return back()->with('success', 'Catégorie créée avec succès !');
     }
 
 }
