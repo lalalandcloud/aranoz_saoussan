@@ -1,17 +1,21 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
 import React from 'react';
+import { Link } from '@inertiajs/react';
+
 
 export default function Index({ blogs }) {
-    console.log(blogs);
     
     return (
         <div>
             <h1>Liste des Blogs</h1>
             
             {blogs.map((blog) => (
+                
                 <div key={blog.id}>
-                    <h2>{blog.titre}</h2>
+                    <Link href={route('public.blogs.show', blog.id)} className="nav-link">
+                        <h2>{blog.titre}</h2>
+                    </Link>
                     <p>{blog.article}</p>
                     <p>Auteur: {blog.user?.first_name} {blog.user?.last_name}</p>
                     <p>Tags: {blog.blog_tag?.map(tag => (

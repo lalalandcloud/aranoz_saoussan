@@ -117,4 +117,18 @@ class User extends Authenticatable
         return $this->appliedCartCoupon;
     }
 
+    public function blogComments()
+    {
+        return $this->hasMany(BlogUserComment::class)
+                    ->with('blog')
+                    ->orderBy('created_at', 'desc');
+    }
+
+    public function commentedBlogs()
+    {
+        return $this->belongsToMany(Blog::class, 'blog_user_comments')
+                    ->withTimestamps()
+                    ->distinct();
+    }
+
 }

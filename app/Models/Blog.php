@@ -30,4 +30,22 @@ class Blog extends Model
     public function blogImgs(){
         return $this->hasMany(BlogImg::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(BlogUserComment::class)
+                    ->with('user')
+                    ->orderBy('created_at', 'desc');
+    }
+
+    public function hasCommentFromUser($userId)
+    {
+        return $this->comments()->where('user_id', $userId)->exists();
+    }
+
+    public function commentsCount()
+    {
+        return $this->comments()->count();
+    }
+
 }

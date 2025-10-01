@@ -2,32 +2,31 @@
 
 namespace Database\Seeders;
 
+use App\Models\Blog;
 use App\Models\BlogImg;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
 class BlogImgSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $basePath = storage_path('app/public/blogs/images');
-        $directories = File::directories($basePath);
+        $blogs = Blog::all();
 
-        foreach ($directories as $directory) {
-            $blogId = basename($directory);
-            $images = File::files($directory);
-
-            $blog_img = [
-                'img' => isset($images[0]) ? 'blogs/images/' . $blogId . '/' . basename($images[0]->getFilename()) : null,
-                'img2' => isset($images[1]) ? 'blogs/images/' . $blogId . '/' . basename($images[1]->getFilename()) : null,
-                'blog_id' => $blogId,
-            ];
-
-            BlogImg::create($blog_img);
+        foreach ($blogs as $blog) {
+            $blogImagePath = storage_path('app/public/blogs/images/' . $blog->id);
+            
+            // Vérifier si le dossier existe
+            if (File::exists($blogImagePath)) {
+                $images = File::files($blogImagePath);
+                
+                // Prendre les 2 premières images
+                BlogImg::create([
+                    'blog_id' => $blog->id,
+                    'img' => isset($images[0]) ? 'blogs/images/' . $blog->id . '/' . basename($images[0]->getFilename()) : null,
+                    'img2' => isset($images[1]) ? 'blogs/images/' . $blog->id . '/' . basename($images[1]->getFilename()) : null,
+                ]);
+            }
         }
     }
 }

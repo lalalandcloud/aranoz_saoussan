@@ -20,8 +20,13 @@ class BlogController extends Controller
 
     public function show($id)
     {
-        $blog = Blog::with(['blogTag', 'blogCat', 'blogImgs', 'user'])->findOrFail($id);
-        return Inertia::render('Public/Blogs/Show', compact('blog'));
+        $blog = Blog::with(['blogTag', 'blogCat', 'blogImgs', 'user', 'comments.user'])->findOrFail($id);
+        return Inertia::render('Public/Blogs/Show', [
+            'blog' => $blog,
+            'auth' => [
+                'user' => auth()->user()
+            ]
+        ]);    
     }
     public function create()
     {
