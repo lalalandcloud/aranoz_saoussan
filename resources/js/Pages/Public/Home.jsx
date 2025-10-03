@@ -25,16 +25,26 @@ export default function Home({ products, categories, auth }) {
             <Head title="Catalogue" />
             
             <div className="container py-5">
-                {/* Categories */}
+
                 <h2 className="mb-4">Featured Categories</h2>
-                <ul className="categories-list">
+                <div className="row g-3 mb-5">
                     {categories?.map((category) => (
-                        <li key={category.id} className="category-item">
-                            {category.name}
-                        </li>
+                        <div key={category.id} className="col-6 col-md-4 col-lg-3">
+                            <div className="category-card">
+                                {category.img && (
+                                    <img 
+                                        src={`/storage/${category.img}`}
+                                        alt={category.name}
+                                        className="category-image"
+                                    />
+                                )}
+                                <div className="category-name">
+                                    {category.name}
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </ul>
-                
+                </div>                
                 {/* Carousel */}
                 <h2 className="mt-5 mb-4">Nos Produits</h2>
                 

@@ -11,6 +11,7 @@ use App\Http\Controllers\UserPinsController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\UserCartController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\ProductsCatController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -60,6 +61,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
+
+    Route::get('/categories', [ProductsCatController::class, 'index'])->name('categories.index');
+    Route::get('/categories/create', [ProductsCatController::class, 'create'])->name('categories.create');
+    Route::post('/categories', [ProductsCatController::class, 'store'])->name('categories.store');
+    Route::delete('/categories/{category}', [ProductsCatController::class, 'destroy'])->name('categories.destroy');
 
     Route::get('/products/promos', [PromoController::class, 'index'])->name('promos.index');
     Route::post('/promos/apply-random', [PromoController::class, 'applyRandomPromos'])->name('promos.apply-random');
