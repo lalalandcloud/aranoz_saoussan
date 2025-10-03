@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
 import PinButton from '@/Components/PinButton';
 import AddToCart from '@/Components/AddToCart';
+import TogglePin from '@/Components/TogglePin';
 
 export default function Show({ product }) {
     return (
@@ -34,6 +35,8 @@ export default function Show({ product }) {
 
                 <AddToCart product={product} />
                 
+                <TogglePin product={product} />
+
                 <h3>Description</h3>
                 <p>{product.description}</p>
                 

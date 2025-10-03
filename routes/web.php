@@ -75,6 +75,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::delete('/coupons/{coupon}', [CouponController::class, 'destroy'])->name('coupons.destroy');
 
+    Route::post('/products/{product}/toggle-pin', [ProductsController::class, 'togglePin'])->name('products.toggle-pin');
+
     Route::get('/blogs/article/new', [BlogController::class, 'create'])->name('blogs.article.create');
     Route::post('/blogs/article', [BlogController::class, 'store'])->name('blogs.article.store');
 

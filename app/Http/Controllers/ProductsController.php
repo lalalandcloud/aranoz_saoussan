@@ -140,4 +140,12 @@ public function store(Request $request)
             // 'canDelete' => $this->canModify($product),
         ]);
     }
+    public function togglePin(Product $product)
+    {
+        $product->update([
+            'pin' => !$product->pin
+        ]);
+
+        return back()->with('success', $product->pin ? 'Produit épinglé !' : 'Épinglage retiré !');
+    }
 }
