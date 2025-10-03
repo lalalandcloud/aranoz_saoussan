@@ -17,7 +17,6 @@ export default function Dashboard({ users, roles, products, cartItems, userPins 
                 <h1>DASHBOARD ADMIN</h1>
                 <hr />
 
-                {/* STATS RAPIDES */}
                 <h2>RESUMÉ</h2>
                 <p>Utilisateurs: {users?.length || 0}</p>
                 <p>Produits: {products?.length || 0}</p>
@@ -25,7 +24,6 @@ export default function Dashboard({ users, roles, products, cartItems, userPins 
                 <p>Produits aimés: {userPins?.length || 0}</p>
                 <hr />
 
-                {/* UTILISATEURS */}
                 <h2>UTILISATEURS ({users?.length || 0})</h2>
                 <table border="1" width="100%">
                     <thead>
@@ -62,7 +60,6 @@ export default function Dashboard({ users, roles, products, cartItems, userPins 
                 
                 <hr />
 
-                {/* PRODUITS */}
                 <h2>PRODUITS ({products?.length || 0})</h2>
                 {products?.length > 0 ? (
                     <table border="1" width="100%">
@@ -101,7 +98,6 @@ export default function Dashboard({ users, roles, products, cartItems, userPins 
                 
                 <hr />
 
-                {/* PANIERS ACTIFS */}
                 <h2>PANIERS ACTIFS ({cartItems?.length || 0})</h2>
                 {cartItems?.length > 0 ? (
                     <table border="1" width="100%">
@@ -130,7 +126,6 @@ export default function Dashboard({ users, roles, products, cartItems, userPins 
                 
                 <hr />
 
-                {/* PRODUITS FAVORIS */}
                 <h2>PRODUITS FAVORIS ({userPins?.length || 0})</h2>
                 {userPins?.length > 0 ? (
                     <table border="1" width="100%">

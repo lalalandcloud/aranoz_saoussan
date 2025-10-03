@@ -84,4 +84,6 @@ Route::get('/products/{product}', [ProductsController::class, 'show'])->name('pu
 Route::get('/home', [ProductsController::class, 'index'])->name('public.home');
 Route::get('/blogs', [BlogController::class, 'index'])->name('public.blogs.index');
 Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('public.blogs.show');
+
 require __DIR__.'/auth.php';
+
