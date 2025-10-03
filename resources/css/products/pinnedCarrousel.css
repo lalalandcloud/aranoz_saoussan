@@ -1,0 +1,130 @@
+/* Pinned Carousel Section */
+.pinned-carousel-section {
+    background-color: rgb(236, 253, 255);
+    padding: 60px 0;
+    margin-bottom: 40px;
+    color: black; 
+}
+
+.pinned-carousel-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+/* Carousel Slide */
+.pinned-product-slide {
+    padding: 20px;
+}
+
+/* Image */
+.pinned-product-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+/* Content */
+.pinned-product-content {
+    padding: 20px;
+}
+
+.pinned-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.pinned-product-name {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.pinned-product-description {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.95;
+}
+
+.pinned-product-info {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.pinned-product-price {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.pinned-product-stock {
+    font-size: 18px;
+    opacity: 0.9;
+    align-self: flex-end;
+}
+
+/* Controls */
+#pinnedCarousel .carousel-control-prev,
+#pinnedCarousel .carousel-control-next {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    backdrop-filter: blur(10px);
+}
+
+#pinnedCarousel .carousel-control-prev:hover,
+#pinnedCarousel .carousel-control-next:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+#pinnedCarousel .carousel-control-prev-icon,
+#pinnedCarousel .carousel-control-next-icon {
+    filter: brightness(0) invert(1);
+}
+
+/* Indicators */
+#pinnedCarousel .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+}
+
+#pinnedCarousel .carousel-indicators button.active {
+    background-color: white;
+    width: 30px;
+    border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pinned-product-image {
+        height: 300px;
+        margin-bottom: 30px;
+    }
+    
+    .pinned-product-name {
+        font-size: 28px;
+    }
+    
+    .pinned-product-description {
+        font-size: 16px;
+    }
+    
+    .pinned-product-price {
+        font-size: 24px;
+    }
+}

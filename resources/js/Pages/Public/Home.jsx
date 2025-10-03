@@ -1,7 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
-import PinButton from '@/Components/PinButton';
-import AddToCart from '@/Components/AddToCart';
+import PinnedCarrousel from '@/Components/PinnedCarrousel';
 
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
@@ -22,9 +21,11 @@ export default function Home({ products, categories, auth }) {
 
     return (
         <>
+            
             <Head title="Catalogue" />
             
             <div className="container py-5">
+                <PinnedCarrousel products={products} />
 
                 <h2 className="mb-4">Featured Categories</h2>
                 <div className="row g-3 mb-5">
