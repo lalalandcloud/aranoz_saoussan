@@ -119,7 +119,7 @@ public function store(Request $request)
         else {
             $filename = 'medium_' . uniqid() . '.' . $extension;
             $image = $this->manager->read($uploadedFile->getRealPath());
-            $image->scale(width: 600);
+            $image->scale(width: 800);
             $image->save($directory . '/' . $filename);
             
             return 'products/' . $filename;
