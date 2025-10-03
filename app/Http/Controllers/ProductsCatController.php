@@ -28,7 +28,7 @@ class ProductsCatController extends Controller
 
     public function create()
     {
-        return Inertia::render('Admin/ProductCategories/Create');
+        return Inertia::render('Admin/Products/Categories/Create');
     }
 
     public function store(Request $request)
