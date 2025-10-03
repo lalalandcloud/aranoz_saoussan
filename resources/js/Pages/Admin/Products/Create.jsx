@@ -21,7 +21,7 @@ export default function Create({ categories }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('products.store'));
+        post(route('admin.products.store'));
     };
 
     const handleFileChange = (field, file) => {

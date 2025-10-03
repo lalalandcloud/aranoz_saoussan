@@ -8,9 +8,19 @@ use App\Models\UserPin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ProductsController extends Controller
 {
+
+    private $manager;
+
+    public function __construct()
+    {
+        // Initialiser le manager une seule fois
+        $this->manager = new ImageManager(new Driver());
+    }
     public function index()
     {
         $products = Product::with(['category', 'promo'])
@@ -36,21 +46,21 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+public function store(Request $request)
     {
         $validatedData = $request->validate([
             'products_cat_id' => 'required|exists:products_cats,id',
-            'promo_id' => 'nullable|exists:promos,id', // 'promos' au lieu de 'promo'
+            'promo_id' => 'nullable|exists:promos,id',
             'name' => 'required|string|max:255',
             'description' => 'required|string|min:10',
             'stock' => 'required|integer|min:0',
             'pin' => 'boolean',
             'colour' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
             'price' => 'required|numeric|min:0',
-            'img_main' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'img_2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'img_3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'img_4' => 'nullable|image|memes:jpeg,png,jpg,gif|max:2048',
+            'img_main' => 'required|image|mimes:jpeg,png,jpg|max:10240',
+            'img_2' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'img_3' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'img_4' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
         ]);
 
         $imagePaths = [];
@@ -58,7 +68,10 @@ class ProductsController extends Controller
 
         foreach ($imageFields as $field) {
             if ($request->hasFile($field)) {
-                $imagePaths[$field] = $request->file($field)->store('products', 'public');
+                $imagePaths[$field] = $this->processAndStoreImage(
+                    $request->file($field), 
+                    $field
+                );
             }
         }
 
@@ -66,6 +79,51 @@ class ProductsController extends Controller
 
         return redirect()->route('public.show', $product->id)
                         ->with('success', 'Produit ajouté avec succès !');
+    }
+
+    private function processAndStoreImage($uploadedFile, $field)
+    {
+        // Créer le dossier s'il n'existe pas
+        $directory = storage_path('app/public/products');
+        if (!file_exists($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $extension = $uploadedFile->getClientOriginalExtension();
+
+        // Traitement spécifique pour img_main : 3 versions
+        if ($field === 'img_main') {
+            // 1. Version grande (1200px max)
+            $filenameLarge = 'large_' . uniqid() . '.' . $extension;
+            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image->scale(width: 1200);
+            $image->save($directory . '/' . $filenameLarge);
+
+            // 2. Version moyenne (600px max)
+            $filenameMedium = 'medium_' . uniqid() . '.' . $extension;
+            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image->scale(width: 800);
+            $image->save($directory . '/' . $filenameMedium);
+
+            // 3. Version thumbnail (300px max)
+            $filenameThumb = 'thumb_' . uniqid() . '.' . $extension;
+            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image->scale(width: 300);
+            $image->save($directory . '/' . $filenameThumb);
+
+            // Retourner le chemin de la version large (principale)
+            return 'products/' . $filenameLarge;
+        } 
+        
+        // Pour img_2, img_3, img_4 : conserver taille originale
+        else {
+            $filename = 'medium_' . uniqid() . '.' . $extension;
+            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image->scale(width: 600);
+            $image->save($directory . '/' . $filename);
+            
+            return 'products/' . $filename;
+        }
     }
 
     public function show(Product $product)

@@ -27,7 +27,7 @@ export default function Cart({ cartItems, cartTotal, cartCount, appliedCoupon, r
     }
     return (
         <>
-            <Head title="Dashboard Admin" />
+            <Head title="Panier" />
         
             <div>
                 <h1>Mon Panier</h1>

@@ -60,7 +60,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         <ul className="navbar-nav me-auto">
                             <li className="nav-item">
                                 <Link href={route('public.home')} className="nav-link">
-                                    Accueil
+                                    Home
                                 </Link>
                             </li>
                             
