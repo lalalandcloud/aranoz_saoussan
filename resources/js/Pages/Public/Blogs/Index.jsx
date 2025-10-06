@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
 import React, { useState } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import SearchBar from '@/Components/SearchBar';
 import TagFilter from '@/Components/TagFilter';
 import CategoryFilter from '@/Components/CategoryFilter';
@@ -11,18 +11,24 @@ export default function Index({ blogs, categories = [], tags = [], filters, onFi
   const [catId, setCatId] = useState(filters?.cat_id || '');
   const [tagId, setTagId] = useState(filters?.tag_id || '');
 
-  const applyFilter = (newFilters) => {
-    const updatedFilters = { search, cat_id: catId, tag_id: tagId, ...newFilters };
-    setSearch(updatedFilters.search);
-    setCatId(updatedFilters.cat_id);
-    setTagId(updatedFilters.tag_id);
-    if (onFilterChange) onFilterChange(updatedFilters);
-  };
+  const applyFilter = (newFilters = {}) => {
+    const updated = { search, cat_id: catId, tag_id: tagId, ...newFilters };
+    setSearch(updated.search);
+    setCatId(updated.cat_id);
+    setTagId(updated.tag_id);
+
+    router.visit(route('public.blogs.index'), {
+        method: 'get',
+        data: updated,
+        preserveState: true,
+        replace: true,
+    });
+ };
 
   return (
     <div className="container py-5">
       <div className="row">
-        {/* Gauche : Blogs */}
+        {/* Blogs à gauche */}
         <div className="col-md-8">
           <div className="row g-4">
             {blogs.map((blog) => {
@@ -55,7 +61,9 @@ export default function Index({ blogs, categories = [], tags = [], filters, onFi
                             <span
                               key={tag.id}
                               className="badge bg-light text-dark me-1"
-                              dangerouslySetInnerHTML={{ __html: tag.icon ? `${tag.icon} ${tag.name}` : tag.name }}
+                              dangerouslySetInnerHTML={{
+                                __html: tag.icon ? `${tag.icon} ${tag.name}` : tag.name,
+                              }}
                             />
                           ))}
                         </div>
@@ -72,7 +80,7 @@ export default function Index({ blogs, categories = [], tags = [], filters, onFi
           </div>
         </div>
 
-        {/* Droite : Filtres */}
+        {/* Filtres à droite */}
         <div className="col-md-4">
           <SearchBar initialValue={search} onSearch={(val) => applyFilter({ search: val })} />
           <CategoryFilter categories={categories} onSelect={(val) => applyFilter({ cat_id: val })} />
@@ -82,7 +90,9 @@ export default function Index({ blogs, categories = [], tags = [], filters, onFi
     </div>
   );
 }
-Index.layout = (page) =>
-    page.props.auth && page.props.auth.user
+
+Index.layout = (page) => (
+    page.props.auth && page.props.auth.user 
         ? <AuthenticatedLayout>{page}</AuthenticatedLayout>
-        : <GuestLayout>{page}</GuestLayout>;
+        : <GuestLayout>{page}</GuestLayout>
+);

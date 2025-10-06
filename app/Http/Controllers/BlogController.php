@@ -12,13 +12,40 @@ use Inertia\Inertia;
 
 class BlogController extends Controller
 {
-    public function index()
-    {
-        $blogs = Blog::with(['blogTag', 'blogCat', 'blogImgs', 'user'])
-        ->withCount('comments')
-        ->get();
-        return Inertia::render('Public/Blogs/Index',['blogs' => $blogs]);
+    public function index(Request $request)
+{
+    $query = Blog::with(['blogTag', 'blogCat', 'blogImgs', 'user'])
+                 ->withCount('comments');
+
+    if ($request->cat_id !== null && $request->cat_id !== '') {
+        $query->where('blog_cat_id', $request->cat_id);
     }
+
+    if ($request->tag_id !== null && $request->tag_id !== '') {
+        $query->whereHas('blogTag', function ($q) use ($request) {
+            $q->where('blog_tags.id', $request->tag_id);
+        });
+    }
+
+    if ($request->search !== null && $request->search !== '') {
+        $query->where(function ($q) use ($request) {
+            $q->where('titre', 'like', '%' . $request->search . '%')
+              ->orWhere('article', 'like', '%' . $request->search . '%');
+        });
+    }
+
+    $blogs = $query->get();
+    $categories = BlogCat::withCount('blogs')->get();
+    $tags = BlogTag::all();
+
+    return Inertia::render('Public/Blogs/Index', [
+        'blogs' => $blogs,
+        'categories' => $categories,
+        'tags' => $tags,
+        'filters' => $request->only(['cat_id', 'tag_id', 'search']),
+    ]);
+}
+
 
     public function show($id)
     {
@@ -71,43 +98,4 @@ class BlogController extends Controller
         return redirect()->route('public.blogs.index')
             ->with('success', 'Blog ajouté avec succès !');
     }
-
-    public function filter(Request $request)
-    {
-        $query = Blog::with(['blogTag', 'blogCat', 'blogImgs', 'user'])
-            ->withCount('comments');
-
-        // Filtrer par catégorie
-        if ($request->filled('cat_id')) {
-            $query->where('blog_cat_id', $request->cat_id);
-        }
-
-        // Filtrer par tag
-        if ($request->filled('tag_id')) {
-            $query->whereHas('blogTag', function ($q) use ($request) {
-                $q->where('id', $request->tag_id);
-            });
-        }
-
-        // Recherche par mot-clé
-        if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('titre', 'like', '%' . $request->search . '%')
-                ->orWhere('article', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        $blogs = $query->get();
-
-        $categories = BlogCat::withCount('blogs')->get();
-        $tags = BlogTag::all();
-
-        return Inertia::render('Public/Blogs/Index', [
-            'blogs' => $blogs,
-            'categories' => $categories,
-            'tags' => $tags,
-            'filters' => $request->only(['cat_id', 'tag_id', 'search']),
-        ]);
-    }
-
 }
