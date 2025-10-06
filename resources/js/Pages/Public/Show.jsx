@@ -5,8 +5,10 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import PinButton from '@/Components/PinButton';
 import AddToCart from '@/Components/AddToCart';
 import TogglePin from '@/Components/TogglePin';
+import PinnedCarrousel from '@/Components/PinnedCarrousel';
 
-export default function Show({ product, auth }) {
+
+export default function Show({ product, auth, products }) {
     const [selectedImage, setSelectedImage] = useState(product.img_main);
     const [activeTab, setActiveTab] = useState('description');
     
@@ -32,6 +34,8 @@ export default function Show({ product, auth }) {
             <Head title={product.name} />
             
             <div className="product-show-container">
+                <PinnedCarrousel products={products} />
+                
                 <Link href="/" className="btn btn-outline-secondary mb-3">
                     ← Retour à la liste
                 </Link>

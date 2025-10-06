@@ -125,6 +125,7 @@ public function store(Request $request)
     }
     public function show(Product $product)
     {
+        $products = Product::all();
         $product->load(['category']); // 'category' au lieu de 'products_cat'
         
         $product->is_pinned_by_user = Auth::check() ? 
@@ -133,6 +134,7 @@ public function store(Request $request)
         
         return Inertia::render('Public/Show', [
             'product' => $product,
+            'products' => $products,
             // 'canEdit' => $this->canModify($product),
             // 'canDelete' => $this->canModify($product),
         ]);
