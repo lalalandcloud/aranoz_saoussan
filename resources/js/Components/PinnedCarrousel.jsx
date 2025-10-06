@@ -39,7 +39,7 @@ export default function PinnedCarrousel({ products }) {
                             >
                                 <div className="pinned-product-slide">
                                     <div className="row align-items-center">
-                                        <div className="col-md-6">
+                                        <div className="col-md-6 pinned-product-images">
                                             <img 
                                                 src={`/storage/${product.img_main}`}
                                                 alt={product.name}

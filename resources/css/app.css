@@ -3,3 +3,7 @@
 @import "./products/pinnedCarrousel.css";
 @import "./products/show.css";
 @import "./blogs/blogs.css";
+
+.navbar{
+    background-color: #ecfdff;
+}

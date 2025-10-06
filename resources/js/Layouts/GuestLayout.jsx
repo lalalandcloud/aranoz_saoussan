@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/react';
 export default function GuestLayout({ children }) {
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <Link href={route('public.home')} className="navbar-brand">
                         Aranoz
@@ -24,7 +24,7 @@ export default function GuestLayout({ children }) {
                 </div>
             </nav>
 
-            <main>
+            <main className="container home-container">
                 {children}
             </main>
 

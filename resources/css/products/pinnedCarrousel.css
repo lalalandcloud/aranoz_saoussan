@@ -2,6 +2,7 @@
 .pinned-carousel-section {
     background-color: rgb(236, 253, 255);
     padding: 60px 0;
+    width: 99vw ;
     margin-bottom: 40px;
     color: black; 
 }
@@ -19,10 +20,13 @@
 }
 
 /* Image */
+.pinned-product-images {
+    height: 400px;
+}
 .pinned-product-image {
     width: 100%;
-    height: 400px;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
 }
 
 /* Content */

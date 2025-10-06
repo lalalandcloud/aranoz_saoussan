@@ -38,7 +38,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <Link href={route('public.home')} className="navbar-brand">
                         Aranoz
@@ -189,9 +189,15 @@ export default function AuthenticatedLayout({ header, children }) {
             </nav>
             
 
-            <main className="container mt-4">
+            <main className="container home-container">
                 {children}
             </main>
+            <footer className="bg-light py-4 mt-5">
+                <div className="container text-center">
+                    <p className="text-muted mb-0">© 2025 Aranoz - Vente de Meubles en ligne</p>
+                </div>
+            </footer>
+
         </div>
     );
 }

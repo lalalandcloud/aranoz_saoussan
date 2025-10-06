@@ -24,7 +24,7 @@ export default function Home({ products, categories, auth }) {
             
             <Head title="Catalogue" />
             
-            <div className="container py-5">
+            <div className="container home-containers">
                 <PinnedCarrousel products={products} />
 
                 <h2 className="mb-4">Featured Categories</h2>

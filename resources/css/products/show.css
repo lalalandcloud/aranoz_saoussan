@@ -214,3 +214,10 @@
         height: 400px;
     }
 }
+.home-containers{
+    padding-left: 0;
+}
+.home-container{
+    margin: 0;
+    padding: 0;
+}
