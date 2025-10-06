@@ -87,7 +87,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/blog/category', [BlogCatController::class, 'store'])->name('blogs.category.store');
 
 });
-
+Route::get('/products', [ProductsController::class, 'index'])->name('public.products.index');
 Route::get('/products/{product}', [ProductsController::class, 'show'])->name('public.show');
 Route::get('/home', [ProductsController::class, 'index'])->name('public.home');
 Route::get('/blogs', [BlogController::class, 'index'])->name('public.blogs.index');

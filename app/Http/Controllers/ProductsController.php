@@ -21,7 +21,7 @@ class ProductsController extends Controller
         // Initialiser le manager une seule fois
         $this->manager = new ImageManager(new Driver());
     }
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::with(['category', 'promo'])
                         ->orderBy('created_at', 'desc')
@@ -33,7 +33,9 @@ class ProductsController extends Controller
                             return $product;
                         });
         $categories = ProductCategory::orderBy('name')->get();
-
+        if ($request->is('products')) {
+            return Inertia::render('Public/Products/Index', compact('products', 'categories'));
+        }
         return Inertia::render('Public/Home', compact('products', 'categories'));
     }
 

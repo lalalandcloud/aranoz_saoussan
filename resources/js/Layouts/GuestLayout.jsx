@@ -9,6 +9,20 @@ export default function GuestLayout({ children }) {
                     <Link href={route('public.home')} className="navbar-brand">
                         Aranoz
                     </Link>
+                    <ul className="navbar-nav me-auto">
+                        <li className="nav-item">
+                            <Link href={route('public.home')} className="nav-link">
+                                Home
+                            </Link>
+                        </li>
+                        
+                        <li className="nav-item">
+                            <Link href={route('public.blogs.index')} className="nav-link">
+                                Blog
+                            </Link>
+                        </li>
+                        
+                    </ul>
                     
                     <div className="navbar-nav ms-auto">
                         <Link href={route('public.home')} className="nav-link">

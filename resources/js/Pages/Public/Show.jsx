@@ -33,7 +33,7 @@ export default function Show({ product, auth, products }) {
         <>
             <Head title={product.name} />
             
-            <div className="product-show-container">
+            <div className="home-container">
                 <PinnedCarrousel products={products} />
                 
                 <Link href="/" className="btn btn-outline-secondary mb-3">
