@@ -14,7 +14,7 @@ class BlogCat extends Model
         'img'
     ];
 
-    public function blog(){
+    public function blogs(){
         return $this->hasMany(Blog::class);
     }
     
