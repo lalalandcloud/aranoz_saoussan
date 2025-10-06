@@ -83,41 +83,39 @@ public function store(Request $request)
 
     private function processAndStoreImage($uploadedFile, $field)
     {
-        // Créer le dossier s'il n'existe pas
         $directory = storage_path('app/public/products');
         if (!file_exists($directory)) {
             mkdir($directory, 0755, true);
         }
 
         $extension = $uploadedFile->getClientOriginalExtension();
+        
+        // Générer un ID unique pour TOUTES les versions de cette image
+        $baseId = uniqid();
 
-        // Traitement spécifique pour img_main : 3 versions
         if ($field === 'img_main') {
-            // 1. Version grande (1200px max)
-            $filenameLarge = 'large_' . uniqid() . '.' . $extension;
+            // 1. Version large (1200px max)
+            $filenameLarge = 'large_' . $baseId . '.' . $extension;
             $image = $this->manager->read($uploadedFile->getRealPath());
             $image->scale(width: 1200);
             $image->save($directory . '/' . $filenameLarge);
 
-            // 2. Version moyenne (600px max)
-            $filenameMedium = 'medium_' . uniqid() . '.' . $extension;
+            // 2. Version medium (800px) - MÊME ID
+            $filenameMedium = 'medium_' . $baseId . '.' . $extension;
             $image = $this->manager->read($uploadedFile->getRealPath());
             $image->scale(width: 800);
             $image->save($directory . '/' . $filenameMedium);
 
-            // 3. Version thumbnail (300px max)
-            $filenameThumb = 'thumb_' . uniqid() . '.' . $extension;
+            // 3. Version thumb (300px) - MÊME ID
+            $filenameThumb = 'thumb_' . $baseId . '.' . $extension;
             $image = $this->manager->read($uploadedFile->getRealPath());
             $image->scale(width: 300);
             $image->save($directory . '/' . $filenameThumb);
 
-            // Retourner le chemin de la version large (principale)
             return 'products/' . $filenameLarge;
         } 
-        
-        // Pour img_2, img_3, img_4 : conserver taille originale
         else {
-            $filename = 'medium_' . uniqid() . '.' . $extension;
+            $filename = 'medium_' . $baseId . '.' . $extension;
             $image = $this->manager->read($uploadedFile->getRealPath());
             $image->scale(width: 800);
             $image->save($directory . '/' . $filename);
@@ -125,7 +123,6 @@ public function store(Request $request)
             return 'products/' . $filename;
         }
     }
-
     public function show(Product $product)
     {
         $product->load(['category']); // 'category' au lieu de 'products_cat'
