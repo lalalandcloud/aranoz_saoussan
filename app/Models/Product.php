@@ -16,8 +16,8 @@ class Product extends Model
         'stock', 
         'pin', 
         'colour', 
-        'products_cat_id', // Ajoutez cette ligne !
-        'promo_id',        // Ajoutez cette ligne !
+        'products_cat_id', 
+        'promo_id',        
         'img_main', 
         'img_2', 
         'img_3', 

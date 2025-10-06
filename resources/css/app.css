@@ -1,3 +1,4 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "./products/carrousel.css";
 @import "./products/pinnedCarrousel.css";
+@import "./products/show.css";
