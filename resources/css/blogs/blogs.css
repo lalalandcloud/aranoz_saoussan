@@ -26,9 +26,11 @@
 
 .blog-date {
     bottom: -12px;
+    position: absolute;
     font-size: 0.8rem;
     padding: 6px 10px;
     border-radius: 5px;
+    left: 1vh;
     height: 45px;
     text-justify: center;
     background-color: #fd2b5b;

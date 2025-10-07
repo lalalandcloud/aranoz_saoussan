@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function Dashboard({ users, roles, products, cartItems, userPins }) {
     
@@ -172,4 +173,7 @@ export default function Dashboard({ users, roles, products, cartItems, userPins 
     );
 }
 
-Dashboard.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
+Dashboard.layout = (page) => <AuthenticatedLayout>        <AdminLayout>
+            {page}
+        </AdminLayout>
+</AuthenticatedLayout>;

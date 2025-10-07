@@ -8,3 +8,11 @@
 .navbar{
     background-color: #ecfdff;
 }
+.div-admin-banner{
+    width: 100vw;
+    height: 45vh;
+    background-color: #ecfdff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}

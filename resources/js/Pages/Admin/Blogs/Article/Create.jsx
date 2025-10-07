@@ -1,6 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import React from 'react';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function CreateBlog({ categories, tags }) {
     const { data, setData, post, errors } = useForm({
@@ -102,4 +103,7 @@ export default function CreateBlog({ categories, tags }) {
         </>
     );
 }
-CreateBlog.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
+CreateBlog.layout = (page) => <AuthenticatedLayout>        <AdminLayout>
+            {page}
+        </AdminLayout>
+</AuthenticatedLayout>;

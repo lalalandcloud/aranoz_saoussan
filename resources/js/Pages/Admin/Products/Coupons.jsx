@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function Coupons({ coupons }) {
     const [formData, setFormData] = useState({
@@ -91,4 +92,7 @@ export default function Coupons({ coupons }) {
     );
 }
 
-Coupons.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
+Coupons.layout = (page) => <AuthenticatedLayout>        <AdminLayout>
+            {page}
+        </AdminLayout>
+</AuthenticatedLayout>;

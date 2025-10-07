@@ -1,6 +1,7 @@
 import React from 'react';
 import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function PromosIndex({ promos, productsWithPromo }) {
     
@@ -88,4 +89,13 @@ export default function PromosIndex({ promos, productsWithPromo }) {
     );
 }
 
-PromosIndex.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
+// PromosIndex.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
+
+
+PromosIndex.layout = (page) => (
+    <AuthenticatedLayout>
+        <AdminLayout>
+            {page}
+        </AdminLayout>
+    </AuthenticatedLayout>
+);

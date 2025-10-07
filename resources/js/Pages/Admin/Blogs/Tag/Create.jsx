@@ -1,5 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function CreateBlogTag() {
     const { data, setData, post, errors } = useForm({
@@ -48,4 +49,7 @@ export default function CreateBlogTag() {
     );
 }
 
-CreateBlogTag.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
+CreateBlogTag.layout = (page) => <AuthenticatedLayout>        <AdminLayout>
+            {page}
+        </AdminLayout>
+</AuthenticatedLayout>;

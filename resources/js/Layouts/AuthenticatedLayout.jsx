@@ -4,11 +4,6 @@ import CartCounter from '@/Components/CartCounter';
 
 export default function AuthenticatedLayout({ header, children }) {
     const page = usePage();
-    
-    console.log('Full page object:', page);
-    console.log('Page props:', page.props);
-    
-    // Vérifications de sécurité AVANT d'accéder aux données
     if (!page.props) {
         return <div>Erreur: Aucune props reçue</div>;
     }

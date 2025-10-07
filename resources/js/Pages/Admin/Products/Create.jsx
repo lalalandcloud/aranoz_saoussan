@@ -1,7 +1,7 @@
 import React from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import GuestLayout from '@/Layouts/GuestLayout';
+import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function Create({ categories }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -180,4 +180,9 @@ export default function Create({ categories }) {
         </>
     );
 }
-Create.layout = (page) => <AuthenticatedLayout>{page}</AuthenticatedLayout>;
+Create.layout = (page) => 
+    <AuthenticatedLayout>
+        <AdminLayout>
+            {page}
+        </AdminLayout>
+    </AuthenticatedLayout>;
