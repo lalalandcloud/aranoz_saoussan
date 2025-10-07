@@ -109,9 +109,20 @@ export default function Home({ products, categories, auth }) {
                                                             {product.name}
                                                         </h3>
                                                         
-                                                        <p className="product-price">
-                                                            {product.price}€
-                                                        </p>
+                                                        {product.price_promo ? (
+                                                            <p className="product-price">
+                                                                <span className="text-decoration-line-through text-muted">
+                                                                    {product.price}€
+                                                                </span>{' '}
+                                                                <span className="fw-bold text-danger">
+                                                                    {product.price_promo}€
+                                                                </span>
+                                                            </p>
+                                                        ) : (
+                                                            <p className="product-price">
+                                                                {product.price}€
+                                                            </p>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
