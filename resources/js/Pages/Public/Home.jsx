@@ -8,6 +8,9 @@ import { Head, Link } from '@inertiajs/react';
 export default function Home({ products, categories, auth }) {
     const displayedProducts = products?.slice(0, 16) || [];
     
+    // Limiter à 4 catégories
+    const featuredCategories = categories?.slice(0, 4) || [];
+    
     // Diviser les produits en groupes de 8
     const chunkArray = (array, size) => {
         const chunks = [];
@@ -21,31 +24,45 @@ export default function Home({ products, categories, auth }) {
 
     return (
         <>
-            
             <Head title="Catalogue" />
             
             <div className="container home-containers">
                 <PinnedCarrousel products={products} />
 
                 <h2 className="mb-4">Featured Categories</h2>
-                <div className="row g-3 mb-5">
-                    {categories?.map((category) => (
-                        <div key={category.id} className="col-6 col-md-4 col-lg-3">
-                            <div className="category-card">
-                                {category.img && (
-                                    <img 
-                                        src={`/storage/${category.img}`}
-                                        alt={category.name}
-                                        className="category-image"
-                                    />
-                                )}
-                                <div className="category-name">
-                                    {category.name}
+                <div className="row g-4 mb-5">
+                    {featuredCategories.map((category, index) => {
+                        let colClass = 'col-12 category-card-one';
+                        if (index === 0) colClass += ' col-md-7';
+                        if (index === 1) colClass += ' col-md-5';
+                        if (index === 2) colClass += ' col-md-5';
+                        if (index === 3) colClass += ' col-md-7';
+                        return (                        
+                            <div key={category.id} className={colClass}>
+                            <Link href={`/categories/${category.id}`} className="category-card-link">
+                                <div className="featured-category-card">
+                                    <div className="category-content-left">
+                                        <h3 className="category-title">{category.name}</h3>
+                                    </div>
+                                    <div className="category-content-right">
+                                        {category.img && (
+                                            <img 
+                                                src={`/storage/${category.img}`}
+                                                alt={category.name}
+                                                className="featured-category-image"
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="category-overlay">
+                                        <span className="category-link-text">Explore Now →</span>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
-                    ))}
-                </div>                
+                    );
+                })}
+                </div>
+                
                 {/* Carousel */}
                 <h2 className="mt-5 mb-4">Nos Produits</h2>
                 
