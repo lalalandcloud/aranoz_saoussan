@@ -111,3 +111,13 @@
         padding: 15px;
     }
 }
+
+.product-btn-search{
+    background-color: white;
+    border: rgb(99, 99, 99) 1px solid;
+    border-left: none;
+}
+.input-search{
+    border: rgb(99, 99, 99) 1px solid;
+    border-right: none;
+}

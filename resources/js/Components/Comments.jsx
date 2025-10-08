@@ -22,7 +22,7 @@ export default function Comments({ blog, auth }) {
         <div>
             <hr className='pt-3'/>
 
-            <h3>Leave a Reply ({blog.comments?.length || 0})</h3>
+            <h3>Leave a Reply</h3>
 
             {/* Formulaire d'ajout de commentaire */}
             {auth.user ? (

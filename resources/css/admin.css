@@ -473,3 +473,25 @@
         overflow-x: auto;
     }
 }
+
+.admin-div-product{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.admin-btn-product{
+    text-decoration: none;
+    background-color: #fa7f9f;
+    color: white;
+    border-radius: 10%;
+    padding: 10px;
+    border: none;
+}
+.admin-btn-product:hover{
+    text-shadow: 2px 2px 10px #ffffff;
+    filter: dropshadow(color=#ffffff, offx=2, offy=2);
+}

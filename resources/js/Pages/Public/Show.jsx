@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
 import PinButton from '@/Components/PinButton';
 import AddToCart from '@/Components/AddToCart';
 import TogglePin from '@/Components/TogglePin';
 import PinnedCarrousel from '@/Components/PinnedCarrousel';
-
 export default function Show({ product, auth, products }) {
     const [selectedImage, setSelectedImage] = useState(product.img_main);
     const [activeTab, setActiveTab] = useState('description');
     
     const isAdmin = auth?.user?.role?.name === 'admin';
     
-    // Calculer le prix avec réduction
     const hasPromo = product.promo && product.promo !== null;
     const originalPrice = parseFloat(product.price);
     const discountPercent = hasPromo ? product.promo.percent : 0;
@@ -21,12 +19,20 @@ export default function Show({ product, auth, products }) {
         ? originalPrice - (originalPrice * discountPercent / 100)
         : originalPrice;
     
-    // Images secondaires
     const secondaryImages = [
         product.img_2,
         product.img_3,
         product.img_4
     ].filter(img => img !== null && img !== undefined);
+
+
+    const { delete: destroy } = useForm();
+
+    const handleDelete = () => {
+    if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+        destroy(`/admin/products/${product.id}`);
+    }
+    };
 
     return (
         <>
@@ -118,8 +124,22 @@ export default function Show({ product, auth, products }) {
                             <div className="product-actions">
                                 {auth?.user && <PinButton product={product} />}
                                 <AddToCart product={product} />
-                                {isAdmin && <TogglePin product={product} />}
                             </div>
+                        {isAdmin && (
+                            <div className='admin-div-product'>
+                                <Link className='admin-btn-product rounded-pill' href={`/admin/products/${product.id}/edit`}>
+                                    Edit
+                                </Link>
+                                <button 
+                                    type="button" 
+                                    onClick={handleDelete} 
+                                    className='admin-btn-product rounded-pill'
+                                    >
+                                    Delete
+                                </button>
+                                <TogglePin product={product} />                                
+                            </div>
+                        )}
                         </div>
                     </div>
                 </div>

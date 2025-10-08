@@ -137,7 +137,7 @@
     /* PINNED COMPONENT */
 
 
-.toggle-pin-btn {
+/* .toggle-pin-btn {
     padding: 8px 16px;
     border: 2px solid #e5e7eb;
     border-radius: 8px;
@@ -149,9 +149,9 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-}
+} */
 
-.toggle-pin-btn:hover {
+/* .toggle-pin-btn:hover {
     background: #f9fafb;
     transform: translateY(-2px);
 }
@@ -160,13 +160,21 @@
     background: #fef3c7;
     border-color: #fbbf24;
     color: #92400e;
-}
+} */
 
-.toggle-pin-btn.pinned:hover {
+/* .toggle-pin-btn.pinned:hover {
     background: #fde68a;
 }
 
 .toggle-pin-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+} */
+
+
+
+.toggle-pin-btn.pinned {
+    background: #fef3c7;
+    border-color: #fbbf24;
+    color: #92400e;
 }

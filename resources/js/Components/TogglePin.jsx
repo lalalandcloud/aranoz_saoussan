@@ -11,12 +11,11 @@ export default function TogglePin({ product, showLabel = true }) {
     return (
         <button
             onClick={handleToggle}
-            className={`toggle-pin-btn ${product.pin ? 'pinned' : ''}`}
+            className={`toggle-pin-btn ${product.pin ? 'pinned' : ''} rounded-pill admin-btn-product`}
             title={product.pin ? 'Retirer du carrousel' : 'Ajouter au carrousel'}
         >
-            <span>{product.pin ? '⭐' : '📌'}</span>
             {showLabel && (
-                <span>{product.pin ? 'Épinglé' : 'Épingler'}</span>
+                <span>{product.pin ? 'Pinned' : 'Pin'}</span>
             )}
         </button>
     );

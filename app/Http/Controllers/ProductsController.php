@@ -149,4 +149,72 @@ public function store(Request $request)
 
         return back()->with('success', $product->pin ? 'Produit épinglé !' : 'Épinglage retiré !');
     }
+    public function edit(Product $product)
+{
+    $categories = ProductCategory::orderBy('name')->get();
+
+    return Inertia::render('Admin/Products/Edit', [
+        'product' => $product,
+        'categories' => $categories,
+    ]);
+}
+
+public function update(Request $request, Product $product)
+{
+    $validatedData = $request->validate([
+        'products_cat_id' => 'required|exists:products_cats,id',
+        'promo_id' => 'nullable|exists:promos,id',
+        'name' => 'required|string|max:255',
+        'description' => 'required|string|min:10',
+        'stock' => 'required|integer|min:0',
+        'pin' => 'boolean',
+        'colour' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+        'price' => 'required|numeric|min:0',
+    ]);
+
+    $product->update($validatedData);
+
+    return redirect()->route('admin.dashboard')->with('success', 'Produit mis à jour avec succès !');
+}
+public function destroy(Product $product)
+{
+    $product->delete();
+
+    return redirect()->route('admin.dashboard')
+                     ->with('success', 'Produit supprimé avec succès !');
+}
+
+public function filter(Request $request)
+{
+    $search = $request->input('search');
+    $categoryId = $request->input('category_id');
+    $hasPromo = $request->input('has_promo');
+    
+    $products = Product::with(['category', 'promo'])
+        ->when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })
+        ->when($categoryId, function ($query, $categoryId) {
+            return $query->where('products_cat_id', $categoryId);
+        })
+        ->when($hasPromo === 'true', function ($query) {
+            return $query->whereNotNull('promo_id');
+        })
+        ->when($hasPromo === 'false', function ($query) {
+            return $query->whereNull('promo_id');
+        })
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function ($product) {
+            $product->is_pinned_by_user = Auth::check() ? 
+                $product->userPins()->where('user_id', Auth::id())->exists() : false;
+            $product->pins_count = $product->userPins()->count();
+            return $product;
+        });
+    
+    $categories = ProductCategory::orderBy('name')->get();
+    
+    return Inertia::render('Public/Products/Index', compact('products', 'categories'));
+}
+
 }

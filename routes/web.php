@@ -61,6 +61,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
+    Route::get('/products/{product}/edit', [ProductsController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [ProductsController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}', [ProductsController::class, 'destroy'])->name('products.destroy');
 
     Route::get('/categories', [ProductsCatController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [ProductsCatController::class, 'create'])->name('categories.create');
@@ -87,6 +90,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/blog/category', [BlogCatController::class, 'store'])->name('blogs.category.store');
 
 });
+Route::get('/products/filter', [ProductsController::class, 'filter'])->name('products.filter');
 Route::get('/products', [ProductsController::class, 'index'])->name('public.products.index');
 Route::get('/products/{product}', [ProductsController::class, 'show'])->name('public.show');
 Route::get('/home', [ProductsController::class, 'index'])->name('public.home');
