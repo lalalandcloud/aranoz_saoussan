@@ -32,7 +32,7 @@ export default function AuthenticatedLayout({ header, children }) {
     };
 
     return (
-        <div>
+        <div className='div-glo-all'>
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <Link href={route('public.home')} className="navbar-brand">
@@ -104,6 +104,11 @@ export default function AuthenticatedLayout({ header, children }) {
                                             <li>
                                                 <Link href={route('admin.promos.index')} className="dropdown-item">
                                                     Gérer les Promos
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href={route('admin.categories.create')} className="dropdown-item">
+                                                    Ajouter une Catégorie
                                                 </Link>
                                             </li>
                                         </ul>
@@ -187,7 +192,7 @@ export default function AuthenticatedLayout({ header, children }) {
             <main className="container home-container">
                 {children}
             </main>
-            <footer className="bg-light py-4 mt-5">
+            <footer className="py-4 mt-5">
                 <div className="container text-center">
                     <p className="text-muted mb-0">© 2025 Aranoz - Vente de Meubles en ligne</p>
                 </div>

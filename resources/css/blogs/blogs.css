@@ -41,7 +41,7 @@
     font-size: 0.9rem;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* limite à 2 lignes */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 

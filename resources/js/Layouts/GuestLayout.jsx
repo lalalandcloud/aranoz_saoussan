@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 
 export default function GuestLayout({ children }) {
     return (
-        <div>
+        <div className='div-glo-all'>
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <Link href={route('public.home')} className="navbar-brand">
@@ -42,7 +42,7 @@ export default function GuestLayout({ children }) {
                 {children}
             </main>
 
-            <footer className="bg-light py-4 mt-5">
+            <footer className="py-4 mt-5">
                 <div className="container text-center">
                     <p className="text-muted mb-0">© 2025 Aranoz - Vente de Meubles en ligne</p>
                 </div>
