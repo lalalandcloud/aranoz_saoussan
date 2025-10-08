@@ -26,7 +26,6 @@
     width: 99vw;
     left: 0;
     justify-self: center;
-    position: absolute;
 }
 @media (min-width: 992px) {
     .container, .container-lg, .container-md, .container-sm {
@@ -36,3 +35,7 @@
 .div-glo{
     padding-inline: 7rem;
 }
+
+/* * {
+    border: 1px solid;
+} */
