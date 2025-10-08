@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\BlogCat;
 use App\Models\BlogImg;
 use App\Models\BlogTag;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -38,11 +39,16 @@ class BlogController extends Controller
     $categories = BlogCat::withCount('blogs')->get();
     $tags = BlogTag::all();
 
+    $products = Product::with(['category', 'promo'])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+    
     return Inertia::render('Public/Blogs/Index', [
         'blogs' => $blogs,
         'categories' => $categories,
         'tags' => $tags,
         'filters' => $request->only(['cat_id', 'tag_id', 'search']),
+        'products' => $products,
     ]);
 }
 

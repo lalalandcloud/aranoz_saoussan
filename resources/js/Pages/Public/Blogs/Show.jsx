@@ -2,13 +2,16 @@ import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GuestLayout from '@/Layouts/GuestLayout';
 import Comments from '@/Components/Comments';
+import PinnedCarrousel from '@/Components/PinnedCarrousel';
 
-export default function Show({ blog, auth }) {
+export default function Show({ products, blog, auth }) {
     return (
         <>
             <Head title={blog.titre} />
             
             <div>
+                <PinnedCarrousel products={products} />
+                
                 <Link href="/blogs">← Retour aux blogs</Link>
                 
                 <h1>{blog.titre}</h1>

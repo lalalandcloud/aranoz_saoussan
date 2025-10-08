@@ -53,3 +53,9 @@
 .blog-tags .badge span {
     vertical-align: middle;
 }
+.container-blogs{
+    padding: 0;
+}
+.div-blogs{
+    justify-content: center;
+}
