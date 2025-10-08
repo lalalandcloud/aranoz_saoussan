@@ -5,6 +5,7 @@
 @import "./products/show.css";
 @import "./products/home.css";
 @import "./blogs/blogs.css";
+@import "./blogs/show.css";
 @import "./blogs/filters.css";
 @import "./auth.css";
 @import "./admin.css";
@@ -16,6 +17,14 @@
     width: 100vw;
     height: 45vh;
     background-color: #ecfdff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.div-admin-bbanner{
+    background-image: linear-gradient(to bottom, #ecfdff,  #fa7f9f);
+    width: 100vw;
+    height: 45vh;
     display: flex;
     align-items: center;
     justify-content: space-around;

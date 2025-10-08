@@ -2,10 +2,15 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 
 export default function PinnedCarrousel({ products }) {
-    const pinnedProducts = products?.filter(product => product.pin === 1);
+    // Gérer le cas où products est undefined ou vide
+    if (!products || products.length === 0) {
+        return null;
+    }
+
+    const pinnedProducts = products.filter(product => product.pin === 1);
 
     if (pinnedProducts.length === 0) {
-        return <p>pas de produits pin</p>;
+        return null;
     }
 
     return (

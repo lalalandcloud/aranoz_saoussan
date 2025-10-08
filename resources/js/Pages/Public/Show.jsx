@@ -7,14 +7,13 @@ import AddToCart from '@/Components/AddToCart';
 import TogglePin from '@/Components/TogglePin';
 import PinnedCarrousel from '@/Components/PinnedCarrousel';
 
-
 export default function Show({ product, auth, products }) {
     const [selectedImage, setSelectedImage] = useState(product.img_main);
     const [activeTab, setActiveTab] = useState('description');
     
     const isAdmin = auth?.user?.role?.name === 'admin';
     
-    // Calculer le prix avec réduction - CORRECTION ICI
+    // Calculer le prix avec réduction
     const hasPromo = product.promo && product.promo !== null;
     const originalPrice = parseFloat(product.price);
     const discountPercent = hasPromo ? product.promo.percent : 0;
@@ -33,10 +32,10 @@ export default function Show({ product, auth, products }) {
         <>
             <Head title={product.name} />
             
-            <div className="home-container">
-                <PinnedCarrousel products={products} />
-                
-                <Link href="/" className="btn btn-outline-secondary mb-3">
+            <PinnedCarrousel products={products} />
+            
+            <div className="product-show-container">
+                <Link href="/" className="product-back-link">
                     ← Retour à la liste
                 </Link>
                 
@@ -45,14 +44,6 @@ export default function Show({ product, auth, products }) {
                     <div className="product-main-content">
                         {/* LEFT - Images */}
                         <div className="product-images-section">
-                            <div className="product-main-image-wrapper">
-                                <img 
-                                    src={`/storage/${selectedImage.replace('large_', 'medium_')}`}
-                                    alt={product.name}
-                                    className="product-main-image"
-                                />
-                            </div>
-                            
                             {secondaryImages.length > 0 && (
                                 <div className="product-thumbnails">
                                     <img 
@@ -64,7 +55,7 @@ export default function Show({ product, auth, products }) {
                                     {secondaryImages.map((img, index) => (
                                         <img 
                                             key={index}
-                                            src={`/storage/${img}`}
+                                            src={`/storage/${img.replace('large_', 'thumb_')}`}
                                             alt={`${product.name} ${index + 2}`}
                                             className="product-thumbnail"
                                             onClick={() => setSelectedImage(img)}
@@ -72,6 +63,14 @@ export default function Show({ product, auth, products }) {
                                     ))}
                                 </div>
                             )}
+                            
+                            <div className="product-main-image-wrapper">
+                                <img 
+                                    src={`/storage/${selectedImage.replace('large_', 'medium_')}`}
+                                    alt={product.name}
+                                    className="product-main-image"
+                                />
+                            </div>
                         </div>
                         
                         {/* RIGHT - Info */}
@@ -94,9 +93,11 @@ export default function Show({ product, auth, products }) {
                                 )}
                             </div>
                             
-                            <span className="product-category-badge">
-                                {product.category?.name}
-                            </span>
+                            {product.category?.name && (
+                                <span className="product-category-badge">
+                                    {product.category.name}
+                                </span>
+                            )}
                             
                             <div className={`product-stock-status ${product.stock > 0 ? 'in-stock' : 'out-stock'}`}>
                                 {product.stock > 0 
@@ -105,9 +106,14 @@ export default function Show({ product, auth, products }) {
                                 }
                             </div>
                             
-                            <p className="product-short-description">
-                                {product.description?.substring(0, 150)}...
-                            </p>
+                            {product.description && (
+                                <p className="product-short-description">
+                                    {product.description.length > 150 
+                                        ? `${product.description.substring(0, 150)}...`
+                                        : product.description
+                                    }
+                                </p>
+                            )}
                             
                             <div className="product-actions">
                                 {auth?.user && <PinButton product={product} />}
@@ -137,17 +143,21 @@ export default function Show({ product, auth, products }) {
                     
                     <div className="product-tabs-content">
                         <div className={`tab-panel ${activeTab === 'description' ? 'active' : ''}`}>
-                            <p className="tab-content-text">{product.description}</p>
+                            <div className="tab-content-text">
+                                {product.description || 'Aucune description disponible.'}
+                            </div>
                         </div>
                         
                         <div className={`tab-panel ${activeTab === 'specifications' ? 'active' : ''}`}>
                             <div className="tab-content-text">
-                                <p><strong>Couleur:</strong> {product.colour}</p>
-                                <p><strong>Stock:</strong> {product.stock} unité{product.stock > 1 ? 's' : ''}</p>
-                                <p><strong>Catégorie:</strong> {product.category?.name}</p>
-                                <p><strong>Prix:</strong> {currentPrice.toFixed(2)}€</p>
+                                <p><strong>Couleur :</strong> {product.colour}</p>
+                                <p><strong>Stock :</strong> {product.stock} unité{product.stock > 1 ? 's' : ''}</p>
+                                {product.category?.name && (
+                                    <p><strong>Catégorie :</strong> {product.category.name}</p>
+                                )}
+                                <p><strong>Prix :</strong> {currentPrice.toFixed(2)}€</p>
                                 {hasPromo && (
-                                    <p><strong>Promotion:</strong> {product.promo.name} (-{discountPercent}%)</p>
+                                    <p><strong>Promotion :</strong> {product.promo.name} (-{discountPercent}%)</p>
                                 )}
                             </div>
                         </div>
