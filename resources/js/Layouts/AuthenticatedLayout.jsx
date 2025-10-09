@@ -149,9 +149,10 @@ export default function AuthenticatedLayout({ header, children }) {
                         </ul>
                         
                         <div className="navbar-nav">
+
                             <li className="nav-item dropdown">
                                 <a 
-                                    className="nav-link dropdown-toggle text-white" 
+                                    className="nav-link dropdown-toggle" 
                                     href="#" 
                                     id="userDropdown" 
                                     role="button" 
@@ -169,6 +170,11 @@ export default function AuthenticatedLayout({ header, children }) {
                                     <li>
                                         <Link href={route('dashboard')} className="dropdown-item">
                                             Dashboard
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href={route('user.orders.index')} className="dropdown-item">
+                                            Historique
                                         </Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>

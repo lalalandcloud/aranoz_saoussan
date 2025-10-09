@@ -39,11 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('public/user')->name('user.')->group(function () {
         Route::get('/pins', [UserPinsController::class, 'index'])->name('pins.index');
         Route::get('/cart', [UserCartController::class, 'index'])->name('cart.index');
-        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');  // ⬅️ AJOUTER CETTE LIGNE
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');  
     });
     Route::post('/products/{product}/toggle-pin', [UserPinsController::class, 'toggle'])->name('products.toggle-pin');
 
-    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');  // ⬅️ AJOUTER CETTE LIGNE
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store'); 
 
     Route::post('/cart/add/{product}', [UserCartController::class, 'store'])->name('cart.store');
     Route::put('/cart/{cartItem}', [UserCartController::class, 'update'])->name('cart.update');
