@@ -1,0 +1,123 @@
+/* Featured Categories Section */
+.category-card-one{
+    height: 300px;
+}
+
+.category-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.featured-category-card {
+    position: relative;
+    display: flex;
+    height: 100%;
+    background-color: #f7f9fd;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+
+/* Partie gauche - Nom de la catégorie */
+.category-content-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+    margin: 0;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+/* Partie droite - Image */
+.category-content-right {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    align-content: end;
+}
+
+.featured-category-image {
+    width: 100%;
+    transition: transform 0.4s ease;
+}
+
+
+/* Overlay avec lien au hover */
+.category-overlay {
+    background: rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+    width: 150px;
+    height: 60px;
+}
+
+.featured-category-card:hover .category-overlay {
+    opacity: 1;
+}
+
+.category-link-text {
+    color: #fd2b5b;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .featured-category-card {
+        height: 140px;
+    }
+    
+    .category-title {
+        font-size: 18px;
+    }
+    
+    .category-content-left {
+        padding: 20px;
+    }
+    
+    .category-link-text {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .featured-category-card {
+        height: 120px;
+    }
+    
+    .category-title {
+        font-size: 16px;
+    }
+    
+    .category-content-left {
+        padding: 15px;
+    }
+}
+
+.product-btn-search{
+    background-color: white;
+    border: rgb(99, 99, 99) 1px solid;
+    border-left: none;
+}
+.input-search{
+    border: rgb(99, 99, 99) 1px solid;
+    border-right: none;
+}

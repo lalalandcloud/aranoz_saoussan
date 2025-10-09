@@ -20,23 +20,25 @@ export default function Comments({ blog, auth }) {
 
     return (
         <div>
-            <h3>Commentaires ({blog.comments?.length || 0})</h3>
+            <hr className='pt-3'/>
+
+            <h3>Leave a Reply</h3>
 
             {/* Formulaire d'ajout de commentaire */}
             {auth.user ? (
                 <form onSubmit={submit}>
                     <div>
-                        <label>Ajouter un commentaire :</label>
                         <textarea
+                            className='w-100'
                             value={data.comment}
                             onChange={e => setData('comment', e.target.value)}
                             rows="4"
-                            placeholder="Votre commentaire..."
+                            placeholder="Your Reply..."
                         />
                         {errors.comment && <div>{errors.comment}</div>}
                     </div>
-                    <button type="submit" disabled={processing}>
-                        {processing ? 'Envoi...' : 'Publier'}
+                    <button className='btn-comment-send rounded-pill' type="submit" disabled={processing}>
+                        {processing ? 'SENDING...' : 'SEND MESSAGE'}
                     </button>
                 </form>
             ) : (
@@ -62,7 +64,6 @@ export default function Comments({ blog, auth }) {
                                     Supprimer
                                 </button>
                             )}
-                            <hr />
                         </div>
                     ))
                 ) : (

@@ -4,11 +4,6 @@ import CartCounter from '@/Components/CartCounter';
 
 export default function AuthenticatedLayout({ header, children }) {
     const page = usePage();
-    
-    console.log('Full page object:', page);
-    console.log('Page props:', page.props);
-    
-    // Vérifications de sécurité AVANT d'accéder aux données
     if (!page.props) {
         return <div>Erreur: Aucune props reçue</div>;
     }
@@ -37,65 +32,172 @@ export default function AuthenticatedLayout({ header, children }) {
     };
 
     return (
-        <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className='div-glo-all'>
+            <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <Link href={route('public.home')} className="navbar-brand">
                         Aranoz
                     </Link>
-                    <div className="navbar-nav me-auto">
-                        <Link href={route('public.home')} className="nav-link">
-                            Accueil
-                        </Link>
+                    
+                    <button 
+                        className="navbar-toggler" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#navbarNavDropdown" 
+                        aria-controls="navbarNavDropdown" 
+                        aria-expanded="false" 
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div className="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul className="navbar-nav me-auto">
+                            <li className="nav-item">
+                                <Link href={route('public.home')} className="nav-link">
+                                    Home
+                                </Link>
+                            </li>
+                            
+                            <li className="nav-item">
+                                <Link href={route('public.blogs.index')} className="nav-link">
+                                    Blog
+                                </Link>
+                            </li>
+                            
+                            <li className="nav-item">
+                                <Link href={route('user.pins.index')} className="nav-link">
+                                    Mes Favoris
+                                </Link>
+                            </li>
+                                                        
+                            {isAdmin && (
+                                <>
+                                    <li className="nav-item">
+                                        <Link href={route('admin.dashboard')} className="nav-link">
+                                            Dashboard Admin
+                                        </Link>
+                                    </li>
+                                    
+                                    <li className="nav-item dropdown">
+                                        <a 
+                                            className="nav-link dropdown-toggle" 
+                                            href="#" 
+                                            id="productsDropdown" 
+                                            role="button" 
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false"
+                                        >
+                                            Produits
+                                        </a>
+                                        <ul className="dropdown-menu" aria-labelledby="productsDropdown">
+                                            <li>
+                                                <Link href={route('admin.products.create')} className="dropdown-item">
+                                                    Ajouter un produit
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href={route('admin.coupons.index')} className="dropdown-item">
+                                                    Gérer les Coupons
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href={route('admin.promos.index')} className="dropdown-item">
+                                                    Gérer les Promos
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href={route('admin.categories.create')} className="dropdown-item">
+                                                    Ajouter une Catégorie
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li className="nav-item dropdown">
+                                        <a 
+                                            className="nav-link dropdown-toggle" 
+                                            href="#" 
+                                            id="blogDropdown" 
+                                            role="button" 
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false"
+                                        >
+                                            Blog Admin
+                                        </a>
+                                        <ul className="dropdown-menu" aria-labelledby="blogDropdown">
+                                            <li>
+                                                <Link href={route('admin.blogs.article.create')} className="dropdown-item">
+                                                    Nouvel article
+                                                </Link>
+                                            </li>
+                                            <li><hr className="dropdown-divider" /></li>
+                                            <li>
+                                                <Link href={route('admin.blogs.category.create')} className="dropdown-item">
+                                                    Nouvelle catégorie
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href={route('admin.blogs.tag.create')} className="dropdown-item">
+                                                    Nouveau tag
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </>
+                            )}
+                        </ul>
                         
-                        {isAdmin && (
-                            <>
-                                <Link href="/admin/dashboard" className="nav-link">
-                                    Dashboard Admin
-                                </Link>
-                                {/* <Link href="/admin/products/" className="nav-link">
-                                    Tous les produits
-                                </Link> */}
-                                <Link href="/admin/products/create" className="nav-link">
-                                    Ajouter un produit
-                                </Link>
-                                <Link href="/admin/products/coupons" className="nav-link">
-                                    Coupons
-                                </Link>
-                                <Link href="/admin/products/promos" className="nav-link">
-                                    Promos
-                                </Link>
-                                <Link href="/admin/blogs/article/new" className="nav-link">
-                                    Blog - Nouvel article
-                                </Link>
-                                <Link href="/admin/blog/category/new" className="nav-link">
-                                    Blog - Nouvelle catégorie
-                                </Link>
-                                <Link href="/admin/blog/tag/new" className="nav-link">
-                                    Blog - Nouveau tag
-                                </Link>
-                            </>
-                        )}
-                    </div>
-
-                    <div className="navbar-nav">
-                        <span className="navbar-text text-white">
-                            Bonjour {user.first_name} {user.last_name}
-                        </span>
-                        <CartCounter />
-                        <button 
-                            onClick={handleLogout} 
-                            className="btn btn-outline-light ms-2"
-                        >
-                            Déconnexion
-                        </button>
+                        <div className="navbar-nav">
+                            <li className="nav-item dropdown">
+                                <a 
+                                    className="nav-link dropdown-toggle text-white" 
+                                    href="#" 
+                                    id="userDropdown" 
+                                    role="button" 
+                                    data-bs-toggle="dropdown" 
+                                    aria-expanded="false"
+                                >
+                                    {user.first_name} {user.last_name}
+                                </a>
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li>
+                                        <Link href={route('profile.edit')} className="dropdown-item">
+                                            Mon Profil
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href={route('dashboard')} className="dropdown-item">
+                                            Dashboard
+                                        </Link>
+                                    </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <button 
+                                            onClick={handleLogout} 
+                                            className="dropdown-item"
+                                        >
+                                            Déconnexion
+                                        </button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <CartCounter />
+                        </div>
                     </div>
                 </div>
             </nav>
+            
 
-            <main className="container mt-4">
+            <main className="container home-container">
                 {children}
             </main>
+            <footer className="py-4 mt-5">
+                <div className="container text-center">
+                    <p className="text-muted mb-0">© 2025 Aranoz - Vente de Meubles en ligne</p>
+                </div>
+            </footer>
+
         </div>
     );
 }
