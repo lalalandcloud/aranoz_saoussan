@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\BlogCatController;
 use App\Http\Controllers\BlogCommentController;
 use App\Http\Controllers\BlogController;
@@ -38,8 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('public/user')->name('user.')->group(function () {
         Route::get('/pins', [UserPinsController::class, 'index'])->name('pins.index');
         Route::get('/cart', [UserCartController::class, 'index'])->name('cart.index');
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');  // ⬅️ AJOUTER CETTE LIGNE
     });
     Route::post('/products/{product}/toggle-pin', [UserPinsController::class, 'toggle'])->name('products.toggle-pin');
+
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');  // ⬅️ AJOUTER CETTE LIGNE
 
     Route::post('/cart/add/{product}', [UserCartController::class, 'store'])->name('cart.store');
     Route::put('/cart/{cartItem}', [UserCartController::class, 'update'])->name('cart.update');
@@ -88,6 +92,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('/blog/category/new', [BlogCatController::class, 'create'])->name('blogs.category.create');
     Route::post('/blog/category', [BlogCatController::class, 'store'])->name('blogs.category.store');
+
+    Route::post('/orders/{order}/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');  
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');   
 
 });
 Route::get('/products/filter', [ProductsController::class, 'filter'])->name('products.filter');

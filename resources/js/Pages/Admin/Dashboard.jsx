@@ -3,8 +3,9 @@ import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import AdminLayout from '@/Layouts/AdminLayout';
 
-export default function Dashboard({ users, roles, products, cartItems, userPins }) {
+export default function Dashboard({ users, roles, products, cartItems, userPins, pendingOrders }) {
     
+    console.log('pendingOrders:', pendingOrders);
     const deleteUser = (userId) => {
         if (confirm('Supprimer cet utilisateur ?')) {
             router.delete(`/admin/users/${userId}`);
@@ -49,6 +50,91 @@ export default function Dashboard({ users, roles, products, cartItems, userPins 
                     </div>
                 </div>
 
+                {pendingOrders && pendingOrders.length > 0 && (
+                    <div className="admin-form-card mb-4" style={{ borderLeft: '4px solid #f59e0b' }}>
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                            <h2 className="admin-section-title mb-0"> Commandes en attente de confirmation</h2>
+                            <span className="admin-badge" style={{ backgroundColor: '#f59e0b' }}>
+                                {pendingOrders.length}
+                            </span>
+                        </div>
+                        <div className="admin-table-container">
+                            <table className="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Client</th>
+                                        <th>Produits</th>
+                                        <th>Total</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {pendingOrders.map(order => (
+                                        <tr key={order.id}>
+                                            <td>#{order.id}</td>
+                                            <td>
+                                                {order.user.first_name} {order.user.last_name}
+                                                <br />
+                                                <small style={{ color: '#6b7280' }}>{order.user.email}</small>
+                                            </td>
+                                            <td>
+                                                {order.items.map(item => (
+                                                    <div key={item.id} style={{ fontSize: '14px' }}>
+                                                        {item.product.name} x{item.quantity}
+                                                    </div>
+                                                ))}
+                                            </td>
+                                            <td className="admin-price">
+                                                {parseFloat(order.final_total).toFixed(2)}€
+                                                {order.discount_amount > 0 && (
+                                                    <div style={{ fontSize: '12px', color: '#16a34a' }}>
+                                                        (-{parseFloat(order.discount_amount).toFixed(2)}€)
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td>
+                                                {new Date(order.created_at).toLocaleDateString('fr-FR', {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit'
+                                                })}
+                                            </td>
+                                            <td>
+                                                <div className="d-flex gap-2">
+                                                    <button 
+                                                        onClick={() => {
+                                                            if (confirm('Confirmer cette commande et diminuer le stock ?')) {
+                                                                router.post(`/admin/orders/${order.id}/confirm`);
+                                                            }
+                                                        }}
+                                                        className="admin-btn"
+                                                        style={{ backgroundColor: '#16a34a', color: 'white' }}
+                                                    >
+                                                        Confirmer
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => {
+                                                            if (confirm('Annuler cette commande ?')) {
+                                                                router.post(`/admin/orders/${order.id}/cancel`);
+                                                            }
+                                                        }}
+                                                        className="admin-btn admin-btn-danger"
+                                                    >
+                                                        Annuler
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
                 {/* Utilisateurs */}
                 <div className="admin-form-card mb-4">
                     <div className="d-flex justify-content-between align-items-center mb-3">

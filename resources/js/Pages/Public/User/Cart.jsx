@@ -172,7 +172,10 @@ export default function Cart({ cartItems, cartTotal, cartCount, appliedCoupon, r
                                     </div>
                                 </div>
 
-                                <button className="btn-primary-minimal w-100 mt-4">
+                                 <button 
+                                    onClick={() => router.post('/orders')}
+                                    className="btn-primary-minimal w-100 mt-4"
+                                >
                                     Passer la commande
                                 </button>
                             </div>

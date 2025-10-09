@@ -130,5 +130,9 @@ class User extends Authenticatable
                     ->withTimestamps()
                     ->distinct();
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
 }
