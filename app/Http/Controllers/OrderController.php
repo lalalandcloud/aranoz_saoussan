@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderConfirmed;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\UserCart;
 use App\Models\UserCartCoupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -100,9 +102,11 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Confirmer une commande (Admin)
-     */
+    public function cancel(Order $order)
+    {
+        $order->update(['status' => 'cancelled']);
+        return back()->with('success', 'Commande annulée');
+    }
     public function confirm(Order $order)
     {
         // Vérifier le stock pour chaque item
@@ -122,15 +126,9 @@ class OrderController extends Controller
         // Mettre à jour le statut
         $order->update(['status' => 'confirmed']);
 
-        return back()->with('success', 'Commande confirmée et stock mis à jour');
-    }
+        // Envoyer l'email au client
+        Mail::to($order->user->email)->send(new OrderConfirmed($order));
 
-    /**
-     * Annuler une commande (Admin)
-     */
-    public function cancel(Order $order)
-    {
-        $order->update(['status' => 'cancelled']);
-        return back()->with('success', 'Commande annulée');
+        return back()->with('success', 'Commande confirmée et email envoyé au client');
     }
 }

@@ -35,7 +35,6 @@ class RoleController extends Controller
             return back()->with('error', 'Impossible de supprimer votre propre compte');
         }
 
-        // $user->cars()->delete(); 
         $user->delete();
 
         return back()->with('success', 'Utilisateur supprimé');
