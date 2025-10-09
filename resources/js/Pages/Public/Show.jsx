@@ -126,7 +126,7 @@ export default function Show({ product, auth, products }) {
                                 <AddToCart product={product} />
                             </div>
                         {isAdmin && (
-                            <div className='admin-div-product'>
+                            <div className='admin-div-product-show'>
                                 <Link className='admin-btn-product rounded-pill' href={`/admin/products/${product.id}/edit`}>
                                     Edit
                                 </Link>
