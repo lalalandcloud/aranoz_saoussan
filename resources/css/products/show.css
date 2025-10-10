@@ -168,7 +168,10 @@
     margin-top: auto;
     flex-wrap: wrap;
 }
-
+.product-actions button {
+    border:none;
+    background-color: white;
+}
 /* TABS SECTION */
 .product-tabs-section {
     background: white;

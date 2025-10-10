@@ -20,12 +20,6 @@ export default function AddToCart({ product }) {
             <button onClick={addToCart} disabled={product.stock === 0}>
                 {product.stock === 0 ? 'Rupture' : 'Ajouter au panier'}
             </button>
-            
-            {product.stock > 0 ? (
-                <p>Stock: {product.stock}</p>
-            ) : (
-                <p>Rupture de stock</p>
-            )}
         </div>
     )
 }
