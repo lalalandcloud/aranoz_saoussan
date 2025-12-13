@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('products_specs', function (Blueprint $table) {
             $table->id();
-            
             $table->timestamps();
         });
     }

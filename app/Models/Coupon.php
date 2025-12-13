@@ -19,7 +19,6 @@ class Coupon extends Model
         return ($total * $this->percent) / 100;
     }
 
-
     public function cartApplications()
     {
         return $this->hasMany(UserCartCoupon::class);

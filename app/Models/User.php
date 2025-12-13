@@ -72,6 +72,9 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class);
     }
+    public function blog(){
+        return $this->hasMany(Blog::class);
+    }
     
     public function cartItems()
     {
@@ -112,6 +115,24 @@ class User extends Authenticatable
     public function getAppliedCouponAttribute()
     {
         return $this->appliedCartCoupon;
+    }
+
+    public function blogComments()
+    {
+        return $this->hasMany(BlogUserComment::class)
+                    ->with('blog')
+                    ->orderBy('created_at', 'desc');
+    }
+
+    public function commentedBlogs()
+    {
+        return $this->belongsToMany(Blog::class, 'blog_user_comments')
+                    ->withTimestamps()
+                    ->distinct();
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
 }

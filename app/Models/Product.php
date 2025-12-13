@@ -16,13 +16,14 @@ class Product extends Model
         'stock', 
         'pin', 
         'colour', 
-        'products_cat_id', // Ajoutez cette ligne !
-        'promo_id',        // Ajoutez cette ligne !
+        'products_cat_id', 
+        'promo_id',        
         'img_main', 
         'img_2', 
         'img_3', 
         'img_4',
     ];
+    protected $appends = ['price_promo'];
 
     public function category()
     {
@@ -106,5 +107,17 @@ class Product extends Model
         
         $cartItem = $this->cartItems()->where('user_id', auth()->id())->first();
         return $cartItem ? $cartItem->quantity : 0;
+    }
+    /**
+ * Calculer le prix après promotion
+ */
+    public function getPricePromoAttribute()
+    {
+        if (!$this->promo) {
+            return null;
+        }
+        
+        $discount = ($this->price * $this->promo->percent) / 100;
+        return number_format($this->price - $discount, 2, '.', '');
     }
 }

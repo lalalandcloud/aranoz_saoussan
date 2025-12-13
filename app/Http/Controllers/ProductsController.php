@@ -8,10 +8,20 @@ use App\Models\UserPin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ProductsController extends Controller
 {
-    public function index()
+
+    private $manager;
+
+    public function __construct()
+    {
+        // Initialiser le manager une seule fois
+        $this->manager = new ImageManager(new Driver());
+    }
+    public function index(Request $request)
     {
         $products = Product::with(['category', 'promo'])
                         ->orderBy('created_at', 'desc')
@@ -23,7 +33,9 @@ class ProductsController extends Controller
                             return $product;
                         });
         $categories = ProductCategory::orderBy('name')->get();
-
+        if ($request->is('products')) {
+            return Inertia::render('Public/Products/Index', compact('products', 'categories'));
+        }
         return Inertia::render('Public/Home', compact('products', 'categories'));
     }
 
@@ -36,21 +48,21 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+public function store(Request $request)
     {
         $validatedData = $request->validate([
             'products_cat_id' => 'required|exists:products_cats,id',
-            'promo_id' => 'nullable|exists:promos,id', // 'promos' au lieu de 'promo'
+            'promo_id' => 'nullable|exists:promos,id',
             'name' => 'required|string|max:255',
             'description' => 'required|string|min:10',
             'stock' => 'required|integer|min:0',
             'pin' => 'boolean',
             'colour' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
             'price' => 'required|numeric|min:0',
-            'img_main' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'img_2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'img_3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'img_4' => 'nullable|image|memes:jpeg,png,jpg,gif|max:2048',
+            'img_main' => 'required|image|mimes:jpeg,png,jpg|max:10240',
+            'img_2' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'img_3' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'img_4' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
         ]);
 
         $imagePaths = [];
@@ -58,7 +70,10 @@ class ProductsController extends Controller
 
         foreach ($imageFields as $field) {
             if ($request->hasFile($field)) {
-                $imagePaths[$field] = $request->file($field)->store('products', 'public');
+                $imagePaths[$field] = $this->processAndStoreImage(
+                    $request->file($field), 
+                    $field
+                );
             }
         }
 
@@ -68,8 +83,51 @@ class ProductsController extends Controller
                         ->with('success', 'Produit ajouté avec succès !');
     }
 
+    private function processAndStoreImage($uploadedFile, $field)
+    {
+        $directory = storage_path('app/public/products');
+        if (!file_exists($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $extension = $uploadedFile->getClientOriginalExtension();
+        
+        // Générer un ID unique pour TOUTES les versions de cette image
+        $baseId = uniqid();
+
+        if ($field === 'img_main') {
+            // 1. Version large (1200px max)
+            $filenameLarge = 'large_' . $baseId . '.' . $extension;
+            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image->scale(width: 1200);
+            $image->save($directory . '/' . $filenameLarge);
+
+            // 2. Version medium (800px) - MÊME ID
+            $filenameMedium = 'medium_' . $baseId . '.' . $extension;
+            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image->scale(width: 800);
+            $image->save($directory . '/' . $filenameMedium);
+
+            // 3. Version thumb (300px) - MÊME ID
+            $filenameThumb = 'thumb_' . $baseId . '.' . $extension;
+            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image->scale(width: 300);
+            $image->save($directory . '/' . $filenameThumb);
+
+            return 'products/' . $filenameLarge;
+        } 
+        else {
+            $filename = 'medium_' . $baseId . '.' . $extension;
+            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image->scale(width: 800);
+            $image->save($directory . '/' . $filename);
+            
+            return 'products/' . $filename;
+        }
+    }
     public function show(Product $product)
     {
+        $products = Product::all();
         $product->load(['category']); // 'category' au lieu de 'products_cat'
         
         $product->is_pinned_by_user = Auth::check() ? 
@@ -78,8 +136,85 @@ class ProductsController extends Controller
         
         return Inertia::render('Public/Show', [
             'product' => $product,
+            'products' => $products,
             // 'canEdit' => $this->canModify($product),
             // 'canDelete' => $this->canModify($product),
         ]);
     }
+    public function togglePin(Product $product)
+    {
+        $product->update([
+            'pin' => !$product->pin
+        ]);
+
+        return back()->with('success', $product->pin ? 'Produit épinglé !' : 'Épinglage retiré !');
+    }
+    public function edit(Product $product)
+{
+    $categories = ProductCategory::orderBy('name')->get();
+
+    return Inertia::render('Admin/Products/Edit', [
+        'product' => $product,
+        'categories' => $categories,
+    ]);
+}
+
+public function update(Request $request, Product $product)
+{
+    $validatedData = $request->validate([
+        'products_cat_id' => 'required|exists:products_cats,id',
+        'promo_id' => 'nullable|exists:promos,id',
+        'name' => 'required|string|max:255',
+        'description' => 'required|string|min:10',
+        'stock' => 'required|integer|min:0',
+        'pin' => 'boolean',
+        'colour' => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+        'price' => 'required|numeric|min:0',
+    ]);
+
+    $product->update($validatedData);
+
+    return redirect()->route('admin.dashboard')->with('success', 'Produit mis à jour avec succès !');
+}
+public function destroy(Product $product)
+{
+    $product->delete();
+
+    return redirect()->route('admin.dashboard')
+                     ->with('success', 'Produit supprimé avec succès !');
+}
+
+public function filter(Request $request)
+{
+    $search = $request->input('search');
+    $categoryId = $request->input('category_id');
+    $hasPromo = $request->input('has_promo');
+    
+    $products = Product::with(['category', 'promo'])
+        ->when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })
+        ->when($categoryId, function ($query, $categoryId) {
+            return $query->where('products_cat_id', $categoryId);
+        })
+        ->when($hasPromo === 'true', function ($query) {
+            return $query->whereNotNull('promo_id');
+        })
+        ->when($hasPromo === 'false', function ($query) {
+            return $query->whereNull('promo_id');
+        })
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function ($product) {
+            $product->is_pinned_by_user = Auth::check() ? 
+                $product->userPins()->where('user_id', Auth::id())->exists() : false;
+            $product->pins_count = $product->userPins()->count();
+            return $product;
+        });
+    
+    $categories = ProductCategory::orderBy('name')->get();
+    
+    return Inertia::render('Public/Products/Index', compact('products', 'categories'));
+}
+
 }

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedInteger('stock');
             $table->boolean('pin');
             $table->string('colour', 7);
-            $table->foreignId('products_cat_id')->constrained()->onDelete('cascade');
-            $table->foreignId('promo_id')->nullable();
+            $table->foreignId('products_cat_id')->constrained('products_cats')->onDelete('cascade');
+            $table->foreignId('promo_id')->nullable()->constrained('promos')->nullOnDelete();
             $table->string('img_main');
             $table->string('img_2')->nullable();
             $table->string('img_3')->nullable();

@@ -1,2 +1,70 @@
-@import "bootstrap/dist/css/bootstrap.min.css"
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "./products/carrousel.css";
+@import "./products/pinnedCarrousel.css";
+@import "./products/cart_like.css";
+@import "./products/show.css";
+@import "./products/home.css";
+@import "./products/filter.css";
+@import "./blogs/blogs.css";
+@import "./blogs/show.css";
+@import "./blogs/filters.css";
+@import "./auth.css";
+@import "./admin.css";
 
+.navbar{
+    background-color: #ecfdff;
+}
+.div-admin-banner{
+    width: 100vw;
+    height: 45vh;
+    background-color: #ecfdff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.div-admin-bbanner{
+    background-image: linear-gradient(to bottom, #ecfdff,  #fa7f9f);
+    width: 100vw;
+    height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.home-containers{
+    padding-left: 0;
+}
+.home-container{
+    margin: 0;
+    padding: 0;
+    width: 99vw;
+    left: 0;
+    justify-self: center;
+}
+@media (min-width: 992px) {
+    .container, .container-lg, .container-md, .container-sm {
+        max-width: 99vw;
+    }
+}
+.div-glo{
+    padding-inline: 7rem;
+}
+
+/* * {
+    border: 1px solid;
+} */
+
+footer{
+    background-color: #ecfdff;
+}
+
+body{
+    min-height: 99.9vh;
+}
+
+#app{
+    min-height: 99.9vh;    
+}
+
+.div-glo-all{
+    min-height: 99.9vh;    
+}
