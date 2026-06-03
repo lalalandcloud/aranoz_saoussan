@@ -24,7 +24,7 @@ class BlogCatSeeder extends Seeder
             ['name' => 'Art de Vivre',
             'img' => 'blogs/categories/d'],
             ['name' => 'Inspirations Déco',
-            'img' => 'blogs/categories/d'],
+            'img' => 'blogs/categories/e'],
         ];
 
         foreach ($blog_cats as $blog_cat){
