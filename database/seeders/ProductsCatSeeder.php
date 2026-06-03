@@ -11,15 +11,15 @@ class ProductsCatSeeder extends Seeder
     {
         $categories = [
             ['name' => 'Électronique',
-            'img' => 'product_cats/a.png'],
+            'img' => 'product_cats/a.jpg'],
             ['name' => 'Vêtements',
-            'img' => 'product_cats/b.png'],
-            ['name' => 'Maison & Jardin',
-            'img' => 'product_cats/c.png'],
+            'img' => 'product_cats/b.jpg'],
+            ['name' => 'Jardin',
+            'img' => 'product_cats/c.jpg'],
             ['name' => 'Sport & Loisirs',
-            'img' => 'product_cats/d.png'],
+            'img' => 'product_cats/d.jpeg'],
             ['name' => 'Livres',
-            'img' => 'product_cats/e.png'],
+            'img' => 'product_cats/e.jpg'],
         ];
 
         foreach ($categories as $cat) {
