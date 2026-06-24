@@ -12,14 +12,14 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
 
-private function manager()
-{
-    return new ImageManager(new Driver());
-}
 
 class ProductsController extends Controller
 {
-
+    
+    private function manager()
+    {
+        return new ImageManager(new Driver());
+    }
     
     public function index(Request $request)
     {
@@ -87,7 +87,7 @@ public function store(Request $request)
     {
 
         $directory = storage_path('app/public/products');
-        
+
         if (!file_exists($directory)) {
             mkdir($directory, 0755, true);
         }
