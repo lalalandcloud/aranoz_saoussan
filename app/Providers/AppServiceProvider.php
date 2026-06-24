@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,7 +27,8 @@ class AppServiceProvider extends ServiceProvider
         //     return $user->id === $car->user_id || 
         //         ($user->role && $user->role->name === 'admin');
         // });
-
+        URL::forceScheme('https');
+        
         Gate::define('admin-access', function (User $user) {
             return $user->role && $user->role->name === 'admin';
         });
