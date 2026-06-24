@@ -100,19 +100,19 @@ public function store(Request $request)
         if ($field === 'img_main') {
             // 1. Version large (1200px max)
             $filenameLarge = 'large_' . $baseId . '.' . $extension;
-            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image = $this->manager()->read($uploadedFile->getRealPath());
             $image->scale(width: 1200);
             $image->save($directory . '/' . $filenameLarge);
 
             // 2. Version medium (800px) - MÊME ID
             $filenameMedium = 'medium_' . $baseId . '.' . $extension;
-            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image = $this->manager()->read($uploadedFile->getRealPath());
             $image->scale(width: 800);
             $image->save($directory . '/' . $filenameMedium);
 
             // 3. Version thumb (300px) - MÊME ID
             $filenameThumb = 'thumb_' . $baseId . '.' . $extension;
-            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image = $this->manager()->read($uploadedFile->getRealPath());
             $image->scale(width: 300);
             $image->save($directory . '/' . $filenameThumb);
 
@@ -120,7 +120,7 @@ public function store(Request $request)
         } 
         else {
             $filename = 'medium_' . $baseId . '.' . $extension;
-            $image = $this->manager->read($uploadedFile->getRealPath());
+            $image = $this->manager()->read($uploadedFile->getRealPath());
             $image->scale(width: 800);
             $image->save($directory . '/' . $filename);
             
