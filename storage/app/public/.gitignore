@@ -1,2 +1,8 @@
 *
 !.gitignore
+!blogs/  
+!blogs/**  
+!product_cats/  
+!product_cats/**  
+!products/
+!products/**
